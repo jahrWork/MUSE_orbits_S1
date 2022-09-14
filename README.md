@@ -10,6 +10,6 @@ Create:
      *  7th week milestone 3
      *  9nd week milestone 4 
      * 11th week milestone 5
-     * 13th week milestone 6
+     * 13th week milestone 65
          
 4. Final presentation (slides+ report) in /doc/milestone7.pdf based on milestone 7. (14th-15th week) 
