@@ -122,7 +122,7 @@
 	
 	
 \vspace{1cm}
-\item {\bf Milestone 1 : First steps with the NumericalHUB }
+\item {\bf Milestone 0 : First steps with the NumericalHUB }
 
 
 
@@ -180,29 +180,45 @@ Write a Python modules for the following milestones and compare the results
 with those obtained with the Python library \textt{scipy}
 
 
-%******************************************************
-
-\item {\bf Milestone 2 : 
-Numerical integration of orbits. } 
+\item {\bf Milestone 1 : 
+Prototypes to integrate orbits without functions.
+  } 
 
 \begin{enumerate} 
-\item Write a prototype to integrate Kepler orbits with an Euler method. 
-\item Write a function to integrate a Cauchy problem.
+\item Write a script to integrate Kepler orbits with an Euler method. 
+\item Write a script to integrate Kepler orbits with a Crank-Nicolson method. 
+\item Write a script to integrate Kepler orbits with a Runge--Kutta fourth order.
+\item Change time step and plot orbits. discuss results. 
+ \end{enumerate} 
+
+
+
+%******************************************************
+\newpage 
+\item {\bf Milestone 2 : Prototypes to integrate orbits with functions. } 
+
+\begin{enumerate} 
+\item Write a function called Euler to integrate one step. 
+The function  $F(U,t)$ of the Cauchy problem should be input argument.
+\item Write a function called Crank\_Nicolson to integrate one step.
+\item Write a function called RK4 to integrate one step.
+\item Write a function called Inverse\_Euler to integrate one step.
+\item Write a function to integrate a Cauchy problem. Temporal scheme, initial condition and 
+the function $F(U,t)$ of the Cauchy problem should be input arguments.
 \item Write a function to express the force of the Kepler movement.
 Put emphasis on the way the function of the Cauchy problem is written: 
 
 $ F = [ \dot r , -r/|r|^3 ] $ where $ r, \dot r \in \mathbb{R}^2 $ 
 
-\item Write an Euler, an Inverse Euler, a Crank Nicolson 
-and a fourth order Runge Kutta method.  
 \item Integrate a Kepler with these latter schemes and explain the results.
 \item Increase and decrease the time step and explained the results. 
-\item Compare  these results with those  obtained with the library  \textt{scipy}.  
+%\item Compare  these results with those  obtained with the library  \textt{scipy}. 
+ 
 \end{enumerate} 
 
 %******************************************************
 
-\newpage
+
 \item {\bf Milestone 3 : Error estimation of numerical solutions.} 
 
 
@@ -232,7 +248,7 @@ and  fourth order Runge Kutta method.
  
 
 %******************************************************
-
+\newpage
 \item {\bf Milestone 5 : N  body problem.}    
 
  \begin{enumerate} 
@@ -252,11 +268,12 @@ and  fourth order Runge Kutta method.
 
 
 \begin{enumerate}
+\item Write a high order embedded Runge-Kutta method. 
 \item Write function to simulate  the  circular restricted three body 
 problem.
 \item Determination of the Lagrange points $ F(U) = 0$. 
 \item Stability of the Lagrange points: $ L_1, L_2 ,L_3,  L_4, L_5 $.
-\item Orbits around the Lagrange points.
+\item Orbits around the Lagrange points by means of different temporal schemes.
 
  \end{enumerate}
  
