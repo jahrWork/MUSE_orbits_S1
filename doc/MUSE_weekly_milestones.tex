@@ -1,0 +1,423 @@
+
+
+\documentclass[12pt, a4paper]{article}
+   
+
+
+
+\usepackage[utf8]{inputenc}
+
+\usepackage[fleqn]{amsmath}
+\usepackage{nccmath}
+\usepackage{amsmath}
+\usepackage{nccmath}
+
+\usepackage{latexsym}  %\mathbb{R}
+
+%**************
+
+\usepackage{graphicx}
+\usepackage{bezier}
+\usepackage[spanish]{babel}
+\usepackage{makeidx}
+\usepackage{latexsym}
+% acentos y cosas varias
+\usepackage{epstopdf}
+\usepackage{amssymb}
+\usepackage{curves}
+\usepackage{rotating}
+\usepackage{amsmath}
+\usepackage{epic}
+
+
+%\usepackage{HVDASHLN}
+%\usepackage{epsfig}
+
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern} % load a font with all the characters
+
+
+\usepackage{hyperref} 
+\usepackage{xcolor}
+
+%**************
+
+
+
+%*************************************************************************************************************
+%***  Formato del 
+%documento                                                                      
+%          ***
+%*************************************************************************************************************
+
+\textwidth       15 cm
+\textheight      24 cm
+
+\oddsidemargin    0 cm
+\evensidemargin   0 cm
+
+\topmargin        -1 cm
+
+
+\pagestyle{empty}
+
+%\parskip = 1.5 \baselineskip
+
+
+%*************************************************************************************************************
+%***  Comandos para distintos conjuntos de 
+%numeros                                                         ***
+%*************************************************************************************************************
+
+\newcommand{\RR}{{\sf I}\hspace*{-1.5pt}{\sf R}}
+\newcommand{\NN}{{\rm I}\hspace*{-1.5pt}{\rm N}}
+\newcommand{\PP}{{\sf I}\hspace*{-1.5pt}{\sf P}}
+\newcommand{\QQ}{\hspace*{2pt}{\sf I}\hspace*{-5pt}{\sf Q}}
+\newcommand{\ZZ}{{\sf Z}\hspace*{-4.5pt}{\sf Z}}
+\newcommand{\CC}{\hspace*{2.5pt}{\sf I}\hspace*{-5pt}{\rm C}}
+
+
+%*************************************************************************************************************
+%***  Comandos para subindices y 
+%superindices                                                              ***
+%*************************************************************************************************************
+ 
+\newcommand{\Ri}{_{_R}}  
+\newcommand{\Le}{_{_L}}
+
+      
+
+%*************************************************************************************************************
+%***  Inicio de 
+%documento                                                                      
+%            ***
+%*************************************************************************************************************
+
+
+
+\begin{document}
+\begin{center}
+	{\bf 
+	Ampliación de Matemáticas} \\
+	{\bf Master Universitario en Sistemas Espaciales - 
+	ETSIAE}                                                                                                             
+	               \\
+\end{center}
+
+\vspace{1cm}
+
+
+\pagestyle{empty}
+
+\noindent
+{\bf \Large Weekly milestones. First semester.  
+}                                                                               
+     \\
+
+\vspace{-0.5cm}
+
+\begin{itemize}
+	
+	
+\vspace{1cm}
+\item {\bf Milestone 1 : First steps with the NumericalHUB }
+
+
+
+Install the Microsoft Visual Studio and the Intel Fortran compiler by following 
+the detailed installation manual:   
+  \color{red} 
+ \begin{center} 
+        \href{https://www.amazon.es/s?k=hernandez+rapado+moreno+visual&__mk_es_ES=AMAZON&ref=nb_sb_noss}
+        {Book: Programming with 
+          Visual Studio}
+  \end{center} 
+\color{black}
+
+ 
+A pdf  file   of this book can be found in: 
+\color{red} 
+\begin{center}
+
+  \href{https://github.com/jahrWork/Visual-Studio-projects}{PDF 
+  file:Programming with 
+  Visual Studio}
+
+\end{center}
+\color{black}
+
+
+
+Download and open the NumericalHUB by following the instructions given in: 
+\color{red} 
+\begin{center}
+
+  \href{https://github.com/jahrWork/NumericalHUB}{Software: NumericalHUB}
+
+\end{center}
+\color{black}                
+
+Open the \texttt{main\_NumericalHUB.f90} file and follow the folder structure 
+and menu. Focus on the Cauchy Problem which is explained in the book: 
+
+\color{red} 
+\begin{center}
+  \href{https://www.amazon.es/s?k=modern+fortran+hernandez&__mk_es_ES=%C3%85M%C3%85%C5%BD%C3%95%C3%91&ref=nb_sb_noss}
+  {Book: How to learn applied mathematics through modern Fortran}
+  
+   \href{https://github.com/jahrWork/NumericalHUB}
+    {PDF file: How to learn applied mathematics through modern Fortran}
+\end{center}
+\color{black}
+ 
+Once the \texttt{NumericalHUB} is open,  revise the fisrt order and second 
+order examples to understand how to reduce any ordinary differential equation 
+to a system of first order differential equations. 
+
+Write a Python modules for the following milestones and compare the results 
+with those obtained with the Python library \textt{scipy}
+
+
+%******************************************************
+
+\item {\bf Milestone 2 : 
+Numerical integration of orbits. } 
+
+\begin{enumerate} 
+\item Write a prototype to integrate Kepler orbits with an Euler method. 
+\item Write a function to integrate a Cauchy problem.
+\item Write a function to express the force of the Kepler movement.
+Put emphasis on the way the function of the Cauchy problem is written: 
+
+$ F = [ \dot r , -r/|r|^3 ] $ where $ r, \dot r \in \mathbb{R}^2 $ 
+
+\item Write an Euler, an Inverse Euler, a Crank Nicolson 
+and a fourth order Runge Kutta method.  
+\item Integrate a Kepler with these latter schemes and explain the results.
+\item Increase and decrease the time step and explained the results. 
+\item Compare  these results with those  obtained with the library  \textt{scipy}.  
+\end{enumerate} 
+
+%******************************************************
+
+\newpage
+\item {\bf Milestone 3 : Error estimation of numerical solutions.} 
+
+
+\begin{enumerate}
+
+\item Write a function to evaluate errors of numerical integration by means of Richardson 
+extrapolation. 
+This function should be based on the Cauchy problem solution implemented in milestone 2. 
+\item Numerical error or different temporal schemes:  
+Euler, Inverse Euler, Crank Nicolson 
+and  fourth order Runge Kutta method.  
+\item Write a function to evaluate the convergence rate of different temporal schemes. 
+\item Convergence rate of the different methods with the time step.   
+
+\end{enumerate} 
+
+
+%******************************************************
+\item {\bf Milestone 4 : Linear problems. Regions of absolute stability.}  
+  \begin{enumerate}
+\item  Integrate the linear oscillator $ \ddot x+ x =0$ with some initial conditions.  
+       Use Euler, Inverse Euler, Leap--Frog, Crank--Nicolson and fourth order Runge Kutta
+        method.  
+\item Regions of absolute stability of the above methods. 
+\item Explain the numerical results based on regions of absolute stability.
+\end{enumerate}
+ 
+
+%******************************************************
+
+\item {\bf Milestone 5 : N  body problem.}    
+
+ \begin{enumerate} 
+    
+     \item Write a function to integrate the N body problem.  
+     \item Simulate an example and discuss the results. 
+ \end{enumerate}
+
+
+
+
+%***************************************************
+
+\item {\bf Milestone 6 : Lagrange points and their stability. }                                                      
+
+
+
+
+\begin{enumerate}
+\item Write function to simulate  the  circular restricted three body 
+problem.
+\item Determination of the Lagrange points $ F(U) = 0$. 
+\item Stability of the Lagrange points: $ L_1, L_2 ,L_3,  L_4, L_5 $.
+\item Orbits around the Lagrange points.
+
+ \end{enumerate}
+ 
+ 
+%******************************************************
+
+\item {\bf Milestone 7 : Orbits of the circular restricted three body 
+    problem.}    
+
+ \begin{enumerate} 
+    
+     \item Investigate existing temporal schemes to integrate Cauchy problems. 
+     Fortran and Python programming codes.  
+     Use ODE integrators of the library scipy (odeint, solve\_ivp). 
+     LSODA, ODEPACK, ODEX.  
+     \item Integrate Arenstorf's periodic orbit. Compare results among GBS, RK and 
+     AM methods.  
+     \item Stability of Lyapunov orbits.  Shampine and Gordon orbits.
+     \item Error tolerance and computational effort. 
+     \item Mixing Fortran and Python: calling Fortran from Python and viceversa.
+     \item Parallel programming with GPUs. N-body problem. 
+     \item Standalone Python codes.  
+     \item Automatic testing with GitHub.
+     \item Mixing Fortran, C++ and Python in one executable file.
+     \item Python script for GMAT. 
+ \end{enumerate}
+
+
+
+
+
+
+ 
+ 
+\end{itemize}
+
+\end{document} 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{enumerate}
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+\newpage
+
+
+%***********************************************
+    \item {\bf Hito 5 : }   Funciones y gráficas. 
+ 
+ \begin{enumerate}    
+ \item Escribir un programa que dibuje las siguientes funciones: 
+ 
+ 
+ 
+ \begin{fleqn}
+  \[ f(x)  = \sqrt{ 1 - ( |x| -1 )^2 } \]
+  
+  \[ f(x) = \arccos(1 - | x | )  + \pi \]
+  \[ f(x) =  \frac{ \cos( 70 x ) }{ (1 + x^2 )^2  }\]
+ \[ f(x) = \sqrt{ \cos(x) }  \]
+  \[ f(x) =  8 x \sin( x^2 + 3)  \]
+ \[ f(x) = \prod_{k=0} ^M ( x - k/M )  \]
+ \end{fleqn}
+ 
+\item Dibujar el lugar geométrico de las raíces de: 
+
+\[ x^2 + 2 \zeta \omega_0 x + \omega_0 ^2 = 0,\]
+
+con $ \omega_0 = 1 $ para todo $ \zeta \ge 0$. 
+ 
+\end{enumerate}
+
+
+
+%***********************************************
+    \item {\bf Hito 6 :}  Aproximar  mediante un desarrollo en serie de 
+    potencias de la forma
+    \[  f(x) = \sum_{k=0} ^M a_k \  x^k, \qquad a_k = \frac{  f^{(k)} (0)  }{ 
+    k! }  \]  
+    las  siguientes funciones: 
+   
+    \begin{fleqn}
+  \[   f(x)  = \cos(x)  \]
+    \[ f(x) = \cosh(x) \]
+ \end{fleqn}
+    
+ 
+ 
+ 
+ \begin{enumerate}
+   \item Calcular los desarrollos anteriores para un valor de $ M $ genérico.  
+   \item  Dibujar la función a aproximar junto con las parmétricas que 
+   constituyen los desarrollos anteriores con $ M=1, 2, 3, 4, 5. $
+   \item Discutir los resultados obtenidos.
+ \end{enumerate}
+ 
+ 
+
+%***********************************************
+    \item {\bf Hito 7 :}   Ceros de funciones. 
+    
+  Dada una función genérica $ f(x) $ escribir una programa que permita calcular 
+  los ceros mediante: 
+ 
+ 
+ \begin{enumerate}
+   \item Algoritmo de la bisección. 
+   \item Algoritmo de Newton. 
+   \item Hacer aplicación a una función ejemplo y dibujar el resultado 
+   obtenido. 
+ \end{enumerate}
+ 
+\end{itemize}
+
+\end{document} 
+
