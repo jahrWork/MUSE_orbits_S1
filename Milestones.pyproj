@@ -21,6 +21,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="sources\Milestone1.py" />
     <Compile Include="sources\Milestones.py" />
   </ItemGroup>
   <ItemGroup>
