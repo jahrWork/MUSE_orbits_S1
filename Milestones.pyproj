@@ -21,11 +21,32 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="sources\Milestone2.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sources\ODES\Cauchy_problem.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sources\decorators.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="sources\Milestone1.py" />
+    <Compile Include="sources\Milestone7.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="sources\Milestones.py" />
+    <Compile Include="sources\Physics\Orbits.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sources\ODES\Temporal_schemes.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="sources\" />
+    <Folder Include="sources\Zeros\" />
+    <Folder Include="sources\Physics\" />
+    <Folder Include="sources\ODES\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="README.md" />
