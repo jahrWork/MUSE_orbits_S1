@@ -1,5 +1,5 @@
 from numba import njit
-from numpy import array, zeros, float64, float32 
+from numpy import  zeros, float64, float32 
 import decorators
 
 
