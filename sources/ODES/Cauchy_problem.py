@@ -1,6 +1,7 @@
 from numba import njit
 from numpy import  zeros, float64, float32 
-import decorators
+#import miscellaneus.decorators
+from miscellaneous import decorators 
 
 
 @decorators.exceptions

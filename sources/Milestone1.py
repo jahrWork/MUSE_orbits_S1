@@ -2,7 +2,7 @@
 from numpy import array, zeros, linspace
 import matplotlib.pyplot as plt
 
-import decorators 
+from miscellaneous import decorators 
 
 @decorators.profiling
 def first_version(): 

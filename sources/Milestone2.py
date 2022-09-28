@@ -10,14 +10,11 @@ from numpy import linspace
 def Simulation(tf, N, U0): 
    
     t = linspace(0, tf, N)
-        
-    U =  Cauchy_problem( Kepler, t, U0, Euler) 
+    schemes = [ Euler, Crank_Nicolson ]
+    
+    for method in schemes:
+       U =  Cauchy_problem( Kepler, t, U0, method) 
+       plt.plot(U[:,0] , U[:,1])
+       plt.show()
 
-    plt.plot(U[:,0] , U[:,1])
-    plt.show()
-
-    U =  Cauchy_problem( Kepler, t, U0, Crank_Nicolson) 
-
-    print( type(U) )
-    plt.plot(U[:,0] , U[:,1])
-    plt.show()
+   

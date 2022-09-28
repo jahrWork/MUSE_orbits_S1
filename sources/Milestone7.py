@@ -4,7 +4,8 @@ from ODES.Temporal_schemes import Euler
 from Physics.Orbits import Kepler 
 
 import matplotlib.pyplot as plt
-import decorators 
+#import decorators 
+from miscellaneous import decorators 
 from numba import njit 
 from numpy import array, zeros, linspace
 

@@ -27,7 +27,7 @@
     <Compile Include="sources\ODES\Cauchy_problem.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="sources\decorators.py">
+    <Compile Include="sources\miscellaneous\decorators.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="sources\Milestone1.py" />
@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="sources\" />
+    <Folder Include="sources\miscellaneous\" />
     <Folder Include="sources\Zeros\" />
     <Folder Include="sources\Physics\" />
     <Folder Include="sources\ODES\" />
