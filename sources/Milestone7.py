@@ -9,27 +9,6 @@ from miscellaneous import decorators
 from numba import njit 
 from numpy import array, zeros, linspace
 
-"""
-This is our final version to integrate any problem with any temporal scheme.
-
-Different abstractions : 
-                     1) dU/dt = F(U, t) 
-                     2) Temporal scheme to one step 
-                     3) Cauchy problem to perform different steps 
-
-
-
-"""
-
-@decorators.profiling 
-def Simulation(tf, N, U0): 
-   
-    t = linspace(0, tf, N)        
-    U =  Cauchy_problem( Kepler, t, U0, Embedded_RK, 8, 1e-8)
-    plt.plot(U[:,0] , U[:,1], ".")
-    
-    plt.show()
-
 
 
 @decorators.profiling 

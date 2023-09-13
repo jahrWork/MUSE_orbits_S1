@@ -12,7 +12,7 @@ def first_version():
     The objective of this course is to learn how to write 
     functional programming codes by means of function composition 
     not to see data flow and to have reusable and easy to maintein codes.
-    The idea is to mimic mathmatical concepts or abstractions.  
+    The idea is to mimic mathematical concepts or abstractions.  
     """
 
     U = array( [ 1, 0, 0, 1 ])
