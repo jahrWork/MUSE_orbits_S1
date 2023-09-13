@@ -4,9 +4,9 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>84c721b6-3e5c-4c91-9a61-e84f2319b862</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>sources\Milestones.py</StartupFile>
-    <SearchPath>
-    </SearchPath>
+    <StartupFile>
+    </StartupFile>
+    <SearchPath>..\MUSE_orbits_S1</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <Name>Milestones</Name>
@@ -21,7 +21,23 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="sources\miscellaneous\impure.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sources\miscellaneous\map_filter_reduce.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="sources\Milestone2.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sources\miscellaneous\new_operators.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sources\miscellaneous\overloading.py" />
+    <Compile Include="sources\miscellaneous\speed_up.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sources\miscellaneous\stability.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="sources\ODES\Cauchy_problem.py">
@@ -41,11 +57,21 @@
     <Compile Include="sources\ODES\Temporal_schemes.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="sources\miscellaneous\pointers_and_swap.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sources\System_of_equations\Linear_systems.py" />
+    <Compile Include="sources\System_of_equations\Newton.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sources\miscellaneous\testing.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="sources\" />
     <Folder Include="sources\miscellaneous\" />
-    <Folder Include="sources\Zeros\" />
+    <Folder Include="sources\System_of_equations\" />
     <Folder Include="sources\Physics\" />
     <Folder Include="sources\ODES\" />
   </ItemGroup>
