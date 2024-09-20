@@ -48,3 +48,5 @@ m1.f()
 println("x = ", x)
 
 # m2.f()
+
+Pkg.generate("MyPackage")
