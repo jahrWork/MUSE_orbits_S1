@@ -1,6 +1,3 @@
-#using ./moduleA/m1
-#using .m1
-
 
 
 
@@ -33,20 +30,24 @@ using Revise
 
 includet("./moduleA/m1.jl")
 
-# module main 
-#      using Revise
-#      includet("m2.jl")  # revise only tracks change  of functions 
-# end 
-
-# using .main: m2
-
-
-
 x = 2 
 println("Hello from main program")
 m1.f()
 println("x = ", x)
 
+
+#= 
+module main 
+     using Revise
+     includet("m2.jl")  # revise only tracks change  of functions 
+end  =#
+
+# using .main: m2
+
+
 # m2.f()
 
-Pkg.generate("MyPackage")
+# Pkg.generate("MyPackage")
+# Pkg.activate("")
+
+# using .MyPackage
