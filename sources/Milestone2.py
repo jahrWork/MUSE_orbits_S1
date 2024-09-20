@@ -42,7 +42,8 @@ def Simulation(tf, N, U0):
        else: 
           U =  Cauchy_problem( Kepler, t, U0, method ) 
 
-       plt.plot( U[:,0] , U[:,1], "." )
+       plt.axes().set_aspect('equal')
+       plt.plot( U[:,0] , U[:,1], ".")
        plt.show()
 
 if __name__ == "__main__":
