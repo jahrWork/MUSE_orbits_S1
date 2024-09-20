@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>84c721b6-3e5c-4c91-9a61-e84f2319b862</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>sources\Milestones.py</StartupFile>
+    <StartupFile>sources\Milestone2.py</StartupFile>
     <SearchPath>..\MUSE_orbits_S1</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
