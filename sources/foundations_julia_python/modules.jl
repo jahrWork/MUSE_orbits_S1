@@ -24,15 +24,17 @@ también desaparecen del espacio de trabajo.[
 
 using Pkg
 Pkg.add("Revise")
-
 using Revise 
 
 
 includet("./moduleA/m1.jl")
+import .m1
+using .m1: f
 
 x = 2 
 println("Hello from main program")
 m1.f()
+f()
 println("x = ", x)
 
 
