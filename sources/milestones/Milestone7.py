@@ -17,6 +17,7 @@ def Arenstorf_orbit(tf, N, scheme, q = None, Tolerance = None):
     U0 = array([ 0.994, 0., 0., -2.0015851063790825 ])
     t = linspace(0, tf, N) 
     U = Cauchy_problem( Arenstorf_equations, t, U0, scheme, q, Tolerance)
+    plt.axes().set_aspect('equal')
     plt.plot(U[:,0] , U[:,1], ".")
     plt.show()
    
