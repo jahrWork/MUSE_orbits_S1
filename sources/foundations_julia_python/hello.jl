@@ -7,5 +7,9 @@ println("Hello world")
 
 t =  Vector( range(0, 1, 100) )
 
-y = sin.( 4 * pi * t )
-plot(t, y)
+
+for i in range(1,3)
+    
+  y = sin.( 2  * i * pi * t )
+  display( plot!(t, y) )
+end 
