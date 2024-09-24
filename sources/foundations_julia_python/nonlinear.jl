@@ -1,8 +1,10 @@
 
 import Pkg 
-Pkg.add("NonlinearSolve")
-using NonlinearSolve
+Pkg.add("NonlinearSolve") 
+Pkg.add("LinearAlgebra")
 
+using NonlinearSolve
+using LinearAlgebra
 
 
 g(x, p) = x^2 - 2.
