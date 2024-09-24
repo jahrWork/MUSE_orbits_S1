@@ -13,8 +13,8 @@ includet("./ODES/Temporal_schemes.jl")
 includet("./Physics/Orbits.jl")
 
 using .Cauchy_problem: Cauchy_problem_solution
-#using .Temporal_schemes: Euler, Inverse_Euler, Crank_Nicolson, Embedded_RK 
-using .Temporal_schemes: Euler, RK4
+#using .Temporal_schemes: Euler, ,  Embedded_RK 
+using .Temporal_schemes: Euler, RK4, Inverse_Euler, Crank_Nicolson
 using .Orbits: Kepler 
 
 
@@ -43,8 +43,9 @@ function Simulation( ; tf :: Float64, N :: Integer, U0 :: Vector)
 
     time = range(0., tf, N+1) 
     time = Origin(0)(time)
-    # schemes = [  (Euler, None, None ),  (Embedded_RK, 2, 1e-1), (Embedded_RK, 8, 1e-1)  ]
-    schemes = [  (Euler, nothing, nothing), (RK4, nothing, nothing) ]
+    # schemes = [  (Embedded_RK, 2, 1e-1), (Embedded_RK, 8, 1e-1)  ]
+    schemes = [  (Euler, nothing, nothing), (RK4, nothing, nothing), (Inverse_Euler, nothing, nothing),
+                 (Crank_Nicolson, nothing, nothing) ]
 
       for (method, order, eps)  in schemes
        
@@ -57,4 +58,4 @@ function Simulation( ; tf :: Float64, N :: Integer, U0 :: Vector)
 
 end 
 
-Simulation(tf = 10., N = 1000, U0 = [ 1., 0., 0., 1. ]  )
+Simulation(tf = 5., N = 30, U0 = [ 1., 0., 0., 1. ]  )

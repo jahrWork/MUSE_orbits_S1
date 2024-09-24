@@ -1,6 +1,11 @@
 
 module Temporal_schemes
 
+  import Pkg 
+  Pkg.add("NonlinearSolve")
+  using NonlinearSolve
+
+
 
 #=
   Temporal_schemes
@@ -33,29 +38,35 @@ function RK4(U, dt, t, F )
 
 end 
 
-#= function Inverse_Euler(U, dt, t, F) 
+ function Inverse_Euler(U, dt, t, F) 
 
-    function Residual(X) 
+    function Residual(X, U) 
           return X - U - dt * F(X, t)
     end 
 
-    return newton(func = Residual, x0 = U ) 
+    prob = NonlinearProblem(Residual, U, U)
+    return solve(prob) 
 
 end 
+
+
+
 
 function Crank_Nicolson(U, dt, t, F )
 
-    function Residual_CN(X)
-         
+    function Residual_CN(X, U)
+
+         a = U  +  dt/2 * F( U, t) 
          return  X - a - dt/2 *  F(X, t + dt)
     end 
 
-    a = U  +  dt/2 * F( U, t)  
-    return newton( Residual_CN, U )
+    prob = NonlinearProblem(Residual_CN, U, U)
+    return solve(prob) 
+
 
 end 
 
-
+#=
 
 
 
