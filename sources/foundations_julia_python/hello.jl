@@ -5,11 +5,17 @@ using Plots
 
 println("Hello world")
 
-t =  Vector( range(0, 1, 100) )
+function plot_example()
 
+  t =  Vector( range(0, 1, 100) )
 
-for i in range(1,3)
+  for i in 1:3
     
-  y = sin.( 2  * i * pi * t )
-  display( plot!(t, y) )
+    y = sin.( 2  * i * pi * t )
+    display( plot!(t, y) )
+  end 
+
 end 
+
+@time plot_example()
+

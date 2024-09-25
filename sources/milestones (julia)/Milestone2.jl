@@ -19,27 +19,27 @@ using .Orbits: Kepler
 
 
 
-function Simulation( ; tf :: Float64, N :: Integer, U0 :: Vector) 
-                   # ; it separates positional from keyword arguments
-   
-#     #= 
+    
 #     This is a Simulation code to integrate Cauchy problems with some numerical scheme.
-
+#
 #     The objective of this Milestone is to create different functions or abstractions 
 #     by means of functional programming or function composition. 
 #     Namely, the following modules are created to allow this functional composition:
 #             1) ODES.Cauhy_problem
 #             2) ODES.Temporal_schemes
 #             3) Physics.Orbits
-    
+#    
 #     The idea is to create a Cauchy problem abstraction to integrate different physical 
 #     problems with different temporal schemes.
-    
+#    
 #     Different abstractions : 
 #                      1) dU/dt = F(U, t) 
 #                      2) Temporal scheme to integrate one step 
 #                      3) Cauchy problem to perform different steps 
- 
+#
+function Simulation( ; tf :: Float64, N :: Integer, U0 :: Vector) 
+                   # ; it separates positional from keyword arguments
+   
 
     time = range(0., tf, N+1) 
     time = Origin(0)(time)
@@ -58,4 +58,4 @@ function Simulation( ; tf :: Float64, N :: Integer, U0 :: Vector)
 
 end 
 
-Simulation(tf = 5., N = 30, U0 = [ 1., 0., 0., 1. ]  )
+Simulation(tf = 7., N = 30, U0 = [ 1., 0., 0., 1. ]  )

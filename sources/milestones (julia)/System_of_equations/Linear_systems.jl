@@ -1,7 +1,8 @@
-from numpy import array, zeros, max, dot 
 
 
-def  Gauss(A, b):
+module Linear_systems 
+
+function  Gauss(A, b)
    """
  _________________________________________________________
  Solutions to a system of linear equations A x  =b
@@ -43,40 +44,47 @@ Testing:
        b[i] = b[i] - c * b[k] 
      
 #  back substiturion
-   for i in range(N-1, -1, -1):
+   for i in range(N-1, -1, -1)
    #for i, _ in reversed( list( enumerate(x) ) ):
      x[i] = ( b[i] - dot( A[i,i:N], x[i:N] ) )/ A[i,i]
+   end 
 
    return x 
 
+end 
 
 
-
-def pivoting_row_swapping( A, b, k, N): 
+function pivoting_row_swapping( A, b, k, N) 
 
      s = zeros(N);
 
 #    s[i] is the largest element of row i
-     for i in range(k, N):   # loop over rows
+     for i in range(k, N)   # loop over rows
        s[i] = max( abs(A[i,k:N]) ) 
       
 #    find a row with the largest pivoting element
      pivot = abs( A[k,k] / s[k] )
      l = k
-     for j in range(k, N): 
-       if abs( A[j,k] / s[j] ) > pivot: 
+     for j in range(k, N) 
+       if abs( A[j,k] / s[j] ) > pivot
           pivot = abs( A[j,k] / s[j] )
           l = j
+       end 
+      end
+
 
 #    Check if the system has a sigular matrix
-     if pivot == 0.0 :  print(" The matrix is singular "); exit()
+     if pivot == 0.0;   print(" The matrix is singular "); exit(); end 
        
 #    pivoting: swap rows k and l (if needed)
-     if l != k : 
+     if l != k  
        #( A[k,k:N], A[l,k:N] ) = ( A[l,k:N].copy(), A[k,k:N].copy() )
         A[ [k, l] ,k:N] =  A[ [l, k], k:N]  
         ( b[k], b[l] ) =  ( b[l], b[k] )
+     end
 
+
+end 
 
 
 if __name__ == "__main__":
