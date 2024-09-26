@@ -6,8 +6,18 @@ struct wheel
     O:: Int64
 end
 
-s = wheel(3, 4)
-println(s)
+w = wheel(3, 4)
+println(w)
+
+#w.R = 5 
+mutable struct wheelm
+    R:: Int64
+    O:: Int64
+end
+w = wheelm(3, 4)
+w.R = 5 
+println(w)
+
 
 
 #  with keyword arguments and optional members
