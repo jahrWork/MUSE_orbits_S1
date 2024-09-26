@@ -98,6 +98,13 @@ def Euler(U, dt, t, F):
     return U + dt * F(U, t)
 
 
+if __name__ == "__main__":
+  
+  first_version()
+  abstraction_for_F()
+  abstraction_for_F_and_Euler()
+   
+
 
 
 
