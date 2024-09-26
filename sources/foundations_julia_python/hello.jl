@@ -1,5 +1,7 @@
-import Pkg 
-Pkg.add("Plots")
+# If the environment has compiled Plots, 
+# the following line can be commented 
+#import Pkg 
+#Pkg.add("Plots") 
 
 using Plots
 

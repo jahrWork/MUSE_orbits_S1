@@ -1,8 +1,8 @@
 
 import Pkg 
-Pkg.add("Revise")
-Pkg.add("Plots")
-Pkg.add("OffsetArrays")
+# Pkg.add("Revise")
+# Pkg.add("Plots")
+# Pkg.add("OffsetArrays")
 
 using Plots
 using Revise 
