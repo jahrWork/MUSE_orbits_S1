@@ -1,8 +1,6 @@
 
 module Cauchy_problem
 
-import Pkg 
-Pkg.add("OffsetArrays")
 using OffsetArrays: Origin
 
 function Cauchy_problem_solution( ; F, t, U0, Temporal_scheme, order=nothing, Tolerance=nothing ) 

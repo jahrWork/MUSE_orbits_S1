@@ -1,10 +1,7 @@
 
 module Temporal_schemes
 
-  import Pkg 
-  Pkg.add("NonlinearSolve")
   using NonlinearSolve
-
 
 
 #=
@@ -48,9 +45,6 @@ end
     return solve(prob) 
 
 end 
-
-
-
 
 function Crank_Nicolson(U, dt, t, F )
 

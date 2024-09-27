@@ -2,11 +2,14 @@
 
 using Pkg
 
-# To creae a new environment, uncomment the following line 
+# To creae a new project, uncomment the following line 
 # If it is already create, comment to aovid error
-#Pkg.generate("new_environment")
+Pkg.generate("new_project")
+# The environment of your project is described by the 
+# Project.toml in the project directory
 
-# activate a specific environment 
+
+# activate a specific project
 #Pkg.activate("new_environment2")
 # environment is also selected in VS code Julia env
 
@@ -14,9 +17,17 @@ using Pkg
 
 # Pkg.add("OffsetArrays")
 
+# add documentation to the project 
+# Pkg.add("Documenter")
+# Pkg.add("DocumenterTools")
+# using DocumenterTools
+# DocumenterTools.generate(name = "new_project")
 
-# check what packages are installed 
+# check what environment and packages are installed 
+# environment is selected in VS code Julia env
 Pkg.status()
+println("Press enter")
+S = readline() # does not work 
 
 using OffsetArrays: Origin
 
