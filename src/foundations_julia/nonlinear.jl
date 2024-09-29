@@ -1,27 +1,28 @@
 
-import Pkg 
-Pkg.add("NonlinearSolve") 
-Pkg.add("LinearAlgebra")
+# Uncommet if these packahes are not installed 
+#import Pkg 
+#Pkg.add("NonlinearSolve") 
+#Pkg.add("LinearAlgebra")
 
 using NonlinearSolve
 using LinearAlgebra
 
 
-g(x, p) = x^2 - 2.
+g(x) = x^2 - 2.
 u0 = 1.0
 
-prob = NonlinearProblem(g, u0, p)
-sol = solve(prob)
+problem = NonlinearProblem(g, u0)
+solution = solve(problem)
 
-print( "sol= ", sol)
+println( "solution= ", solution.u)
 
 
 
 f(u, p) = u .* u .- p
 u0 = [1.0, 1.0]
 p = 2.0
-prob = NonlinearProblem(f, u0, p)
-sol = solve(prob)
+problem = NonlinearProblem(f, u0, p)
+solution = solve(problem)
 
-print( "sol= ", sol)
+println( "solution= ", solution.u)
 
