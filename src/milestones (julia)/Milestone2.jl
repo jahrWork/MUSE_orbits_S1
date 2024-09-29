@@ -1,9 +1,10 @@
 
-import Pkg 
+#Uncomment tehe following lines to install once in a life these packages 
+# import Pkg 
 # Pkg.add("Revise")
 # Pkg.add("Plots")
 # Pkg.add("OffsetArrays")
-#Pkg.add("NonlinearSolve")
+# Pkg.add("NonlinearSolve")
 
 using Plots
 using Revise 
@@ -14,11 +15,8 @@ includet("./ODES/Temporal_schemes.jl")
 includet("./Physics/Orbits.jl")
 
 using .Cauchy_problem: Cauchy_problem_solution
-#using .Temporal_schemes: Euler, ,  Embedded_RK 
-using .Temporal_schemes: Euler, RK4, Inverse_Euler, Crank_Nicolson
+using .Temporal_schemes: Euler, RK4, Inverse_Euler, Crank_Nicolson, Embedded_RK 
 using .Orbits: Kepler 
-
-
 
     
 #     This is a Simulation code to integrate Cauchy problems with some numerical scheme.
@@ -43,11 +41,15 @@ function Simulation( ; tf :: Float64, N :: Integer, U0 :: Vector)
 
     time = range(0., tf, N+1) 
     time = Origin(0)(time)
-    # schemes = [  (Embedded_RK, 2, 1e-1), (Embedded_RK, 8, 1e-1)  ]
-    schemes = [  (Euler, nothing, nothing), (RK4, nothing, nothing), 
-                 (Inverse_Euler, nothing, nothing),
-                 (Inverse_Euler, nothing, nothing),
-                 (Crank_Nicolson, nothing, nothing) ]
+    
+    schemes = [  (Euler, nothing, nothing), 
+                 (RK4, nothing, nothing), 
+                 (Inverse_Euler, nothing, nothing), # it takes much more time than CranK_Nicolson 
+                                                    # The reason is associated to convergence of nonlinear problem
+                                                    # The initial condition of CN is better than the IC of Euler
+                 (Crank_Nicolson, nothing, nothing),
+                 (Embedded_RK, 2, 1e-1), 
+                 (Embedded_RK, 8, 1e-1) ]
 
     for (method, order, eps)  in schemes
        
