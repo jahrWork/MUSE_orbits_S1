@@ -25,17 +25,17 @@ Pkg.generate("new_project")
 
 # check what environment and packages are installed 
 # environment is selected in VS code Julia env
-Pkg.status()
-println("Press enter")
-S = readline() # does not work 
+# Pkg.status()
+# println("Press enter")
+# S = readline() # does not work 
 
-using OffsetArrays: Origin
+# using OffsetArrays: Origin
 
-U = [1, 2, 3 ,4, 5]
-U = Origin(0)(U)
+# U = [1, 2, 3 ,4, 5]
+# U = Origin(0)(U)
 
 
-println( "U[0]= ", U[0], " U[4] =", U[4] )
+# println( "U[0]= ", U[0], " U[4] =", U[4] )
 
 # If NonlinearSolve is not installed in the environment,
 # uncomment the following line.
@@ -43,26 +43,26 @@ println( "U[0]= ", U[0], " U[4] =", U[4] )
 
 # Next time, comment again 
 
-using NonlinearSolve
+# using NonlinearSolve
 
-function g(x, p) 
-    return x^2 - 2.
-end    
-u0 = 1.0
+# function g(x, p) 
+#     return x^2 - 2.
+# end    
+# u0 = 1.0
 
-Problem = NonlinearProblem(g, u0)
-@time solution = solve(Problem)
-x = solution.u
-println( "x= ", x)
+# Problem = NonlinearProblem(g, u0)
+# @time solution = solve(Problem)
+# x = solution.u
+# println( "x= ", x)
 
 
-N = 4000
-A = rand(N, N)
-b = rand(N)
-p = LinearProblem(A, b)
+# N = 4000
+# A = rand(N, N)
+# b = rand(N)
+# p = LinearProblem(A, b)
 
-linsolve = init(p)
-s = @time solve(linsolve)
-x = s.u 
-println( " x =", x[1])
+# linsolve = init(p)
+# s = @time solve(linsolve)
+# x = s.u 
+# println( " x =", x[1])
 
