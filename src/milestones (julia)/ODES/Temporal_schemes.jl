@@ -86,7 +86,7 @@ function  Embedded_RK( U, dt, t, F, q, Tolerance)
         k = RK_stages( F, Uh, t + h*i, h, a, c ) 
        # Uh += h * dot( b, k )
        # Uh += h * transpose(b) * k 
-        Uh += U + dt * transpose(k) * b
+        Uh += h * transpose(k) * b
     end 
 
     return Uh
