@@ -1,4 +1,4 @@
-from numba import njit
+#from numba import njit
 from scipy.optimize import newton
 from numpy import matmul, array, zeros, float64, dot, empty   
 from numpy.linalg import norm 
@@ -21,7 +21,7 @@ from numpy.linalg import norm
 """
 
 
-@njit
+#@njit
 def Euler(U, dt, t, F): 
 
     return U + dt * F(U, t)
@@ -34,7 +34,7 @@ def Inverse_Euler(U, dt, t, F):
 
     return newton(func = Residual, x0 = U ) 
 
-@njit
+#@njit
 def Crank_Nicolson(U, dt, t, F ): 
 
     def Residual_CN(X): 
@@ -44,7 +44,7 @@ def Crank_Nicolson(U, dt, t, F ):
     a = U  +  dt/2 * F( U, t)  
     return newton( Residual_CN, U )
 
-@njit
+#@njit
 def RK4(U, dt, t, F ): 
 
      k1 = F( U, t)
@@ -57,7 +57,7 @@ def RK4(U, dt, t, F ):
 
 
 
-@njit
+#@njit
 def Embedded_RK( U, dt, t, F, q, Tolerance): 
   
     #(a, b, bs, c) = Butcher_array(q)
@@ -113,7 +113,7 @@ def Embedded_RK( U, dt, t, F, q, Tolerance):
 
     return Uh
 
-@njit
+#@njit
 def RK_stages( F, U, t, dt, a, c ): 
 
      k = zeros( (len(c), len(U)), dtype=float64 )
@@ -136,7 +136,7 @@ def RK_stages( F, U, t, dt, a, c ):
 
 
 
-@njit
+#@njit
 def Butcher_array(q): 
 
     N_stages = { 2:2, 3:4, 8:13  }

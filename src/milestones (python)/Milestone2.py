@@ -2,7 +2,7 @@ from ODES.Cauchy_problem import Cauchy_problem
 from ODES.Temporal_schemes import Euler, Inverse_Euler, Crank_Nicolson, Embedded_RK 
 from Physics.Orbits import Kepler 
 import matplotlib.pyplot as plt
-from numpy import array 
+from numpy import array, cos, sin, pi  
 
  
 from numpy import linspace
@@ -44,8 +44,9 @@ def Simulation(tf, N, U0):
 
        plt.axes().set_aspect('equal')
        plt.plot( U[:,0] , U[:,1], ".")
+       plt.plot( cos(t) , -sin(t), ".")
        plt.show()
 
 if __name__ == "__main__":
 
-  Simulation(100, 100, array( [ 1., 0., 0., 1. ] ) )
+  Simulation(tf = 24*pi, N = 40, U0 = array( [ 1., 0., 0., 1. ] ) )

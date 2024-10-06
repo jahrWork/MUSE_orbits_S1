@@ -1,9 +1,9 @@
-from numba import njit
+#from numba import njit
 from numpy import array, sqrt 
 
 
 #@jit(nopython=True)
-@njit
+#@njit
 def Kepler(U, t): 
 
     x = U[0]; y = U[1]; dxdt = U[2]; dydt = U[3]
@@ -11,7 +11,7 @@ def Kepler(U, t):
 
     return  array( [ dxdt, dydt, -x/d, -y/d ] ) 
 
-@njit
+#@njit
 def Arenstorf_equations(U, t):          
    
      mu = 0.012277471

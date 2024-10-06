@@ -1,4 +1,4 @@
-from numba import njit
+#from numba import njit
 from numpy import  zeros, float64, float32 
 #import miscellaneus.decorators
 from miscellaneous import decorators 

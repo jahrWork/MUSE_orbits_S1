@@ -6,7 +6,7 @@ from Physics.Orbits import Kepler, Arenstorf_equations
 import matplotlib.pyplot as plt
 #import decorators 
 from miscellaneous import decorators 
-from numba import njit 
+#from numba import njit 
 from numpy import array, zeros, linspace
 
 
