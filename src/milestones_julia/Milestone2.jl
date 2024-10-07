@@ -1,4 +1,6 @@
 
+module Milestone2
+
 #Uncomment tehe following lines to install once in a life these packages 
 # import Pkg 
 # Pkg.add("Revise")
@@ -59,6 +61,8 @@ function Simulation( ; tf :: Float64, N :: Integer, U0 :: Vector)
         display( scatter( U[:, 1], U[:, 2], aspect_ratio=:equal )  )
 
     end
+
+end 
 
 end 
 

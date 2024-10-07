@@ -12,6 +12,7 @@ using PackageCompiler
 # it creates a folder my_project with src folder and toml file 
 #Pkg.generate(joinpath(@__DIR__, "my_project")) # current directory of this file 
 #path = joinpath(@__DIR__, "../../")
+#path = joinpath(@__DIR__, "../")
 #Pkg.generate(joinpath(path, "my_project"))  # 
 
 # It does not work VS code. Change manually 
