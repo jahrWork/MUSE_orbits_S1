@@ -16,9 +16,9 @@ includet("./ODES/Cauchy_problem.jl")
 includet("./ODES/Temporal_schemes.jl")
 includet("./Physics/Orbits.jl")
 
-using .Cauchy_problem: Cauchy_problem_solution
-using .Temporal_schemes: Euler, RK4, Inverse_Euler, Crank_Nicolson, Embedded_RK 
-using .Orbits: Kepler 
+using ...Cauchy_problem: Cauchy_problem_solution
+using ...Temporal_schemes: Euler, RK4, Inverse_Euler, Crank_Nicolson, Embedded_RK 
+using ...Orbits: Kepler 
 
     
 #     This is a Simulation code to integrate Cauchy problems with some numerical scheme.
@@ -66,4 +66,4 @@ end
 
 end 
 
-Simulation(tf = 4*2*pi, N = 40, U0 = [ 1., 0., 0., 1. ]  )
+# Simulation(tf = 4*2*pi, N = 40, U0 = [ 1., 0., 0., 1. ]  )

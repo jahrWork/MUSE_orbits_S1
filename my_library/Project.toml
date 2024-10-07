@@ -1,0 +1,7 @@
+name = "my_library"
+uuid = "8b58a052-e30a-466f-8e18-3ba7be0187f7"
+authors = ["Juan Hernandez <jahramos@gmail.com>"]
+version = "0.1.0"
+
+[deps]
+PackageCompiler = "9b87118b-4619-50d2-8e1e-99f35a4d4d9d"
