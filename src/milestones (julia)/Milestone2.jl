@@ -48,8 +48,8 @@ function Simulation( ; tf :: Float64, N :: Integer, U0 :: Vector)
                                                     # The reason is associated to convergence of nonlinear problem
                                                     # The initial condition of CN is better than the IC of Euler
                  (Crank_Nicolson, nothing, nothing),
-                 (Embedded_RK, 2, 1e-1), 
-                 (Embedded_RK, 8, 1e-1) ]
+                 (Embedded_RK, 2, 1e-5), 
+                 (Embedded_RK, 8, 1e-5) ]
 
     for (method, order, eps)  in schemes
        
@@ -62,4 +62,4 @@ function Simulation( ; tf :: Float64, N :: Integer, U0 :: Vector)
 
 end 
 
-Simulation(tf = 7., N = 30, U0 = [ 1., 0., 0., 1. ]  )
+Simulation(tf = 4*2*pi, N = 40, U0 = [ 1., 0., 0., 1. ]  )

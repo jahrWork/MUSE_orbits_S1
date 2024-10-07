@@ -63,20 +63,39 @@ end
 
 
 
+
+
+
+#**************************************************************************
+# It calculates one time step of a system of ODES by means of 
+# Embedded Runge Kutta with variable step selection. 
+# To detemine the time step, the estimated error is calculated based on two RKs.
+# One with order q and one with order q-1.
+# The method and the tolerance can be previously selected
+#
+# Inputs: 
+#         U         : initial conditions  
+#         dt        : time step to integrate 
+#         t         : initial time
+#         F         : system of equations
+#         q         : order of RK scheme
+#         Tolerance : error tolerance 
+#
+# Outputs: 
+#         Uh        : solution at time t+dt with error less than tolerance 
+#
+# Authors: 
+#         Juan A. Hernandez Ramos       (2024)
+#***************************************************************************  
+
 function  Embedded_RK( U, dt, t, F, q, Tolerance)
   
     (a, b, bs, c) = Butcher_array(q)
-
-    println(" q =", q )
-    println(" size(a) =", size(a) )
-    println(" size(c) =", size(c) )
-    
+        
     k = RK_stages( F, U, t, dt, a, c ) 
-   # Error = dot( b-bs, k )
     Error = transpose( b-bs ) * k 
 
     dt_min = min( dt, dt * ( Tolerance / norm(Error) ) ^(1/q) )
-    #N = Int( dt/dt_min  ) + 1
     N = trunc(Int, dt/dt_min) + 1
     h = dt / N
     Uh = copy(U)
@@ -84,8 +103,6 @@ function  Embedded_RK( U, dt, t, F, q, Tolerance)
     for i in 0:N-1 
 
         k = RK_stages( F, Uh, t + h*i, h, a, c ) 
-       # Uh += h * dot( b, k )
-       # Uh += h * transpose(b) * k 
         Uh += h * transpose(k) * b
     end 
 
@@ -93,28 +110,29 @@ function  Embedded_RK( U, dt, t, F, q, Tolerance)
 
 end 
 
-function RK_stages( F, U, t, dt, a, c )
+
+
+function RK_stages( F, U, t, h, a, c )
 
      Ns = size(c)[1]
      Nv = size(U)[1]
      k = zeros( Ns, Nv )
-     println(" size(k) =", size(k) )
-
+       
      for i in 1:Ns 
-        global Up
-        for  j in 1:Ns-1 
-         # Up = U + dt * dot( a[i, :], k)
-         # Up = U + dt * transpose( a[i, :] ) * k
-          Up = U + dt * transpose(k) * a[i,:]
-        end
 
-        k[i, :] = F( Up, t + c[i] * dt ) 
+        Up = U
+        for  j in 1:i-1 
+          Up = Up + h * a[i,j] * k[j,:] #transpose(k) * a[i,:]
+        end
+        k[i, :] = F( Up, t + c[i] * h ) 
 
      end
-
      return k 
 
 end   
+
+
+
 
 
 function Butcher_array(q)
