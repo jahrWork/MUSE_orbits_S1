@@ -13,8 +13,8 @@ function plot_example()
 
   for i in 1:3
         y[:,i] = sin.( 2  * i * pi * t )
-  end       
-  #  display( plot!(t, y) )
+  end     
+  
   plot(t, y, 
        title = "Trigonometric f of different frequency \$ y(t) = \\sin(2  \\pi  f  t) \$", 
        xlabel = "\$ t \$", ylabel = "\$ y \$", 
