@@ -2,7 +2,7 @@
 
 julia_version = "1.10.5"
 manifest_format = "2.0"
-project_hash = "a4bde9948df553ae2b23e3b35395194e1d86b075"
+project_hash = "475dbb85dbf89b7f4966b78b8a1fe2fb810b8e9b"
 
 [[deps.ADTypes]]
 git-tree-sha1 = "016833eb52ba2d6bea9fcb50ca295980e728ee24"
@@ -95,6 +95,12 @@ deps = ["Artifacts", "Bzip2_jll", "CompilerSupportLibraries_jll", "Fontconfig_jl
 git-tree-sha1 = "a2f1c8c668c8e3cb4cca4e57a8efdb09067bb3fd"
 uuid = "83423d85-b0ee-5818-9007-b63ccbeb887a"
 version = "1.18.0+2"
+
+[[deps.Cauchy_problem]]
+deps = ["OffsetArrays"]
+path = "src/Cauchy_problem"
+uuid = "08da0cd1-a41d-4c5c-9aca-03c89827d83f"
+version = "0.1.0"
 
 [[deps.CloseOpenIntervals]]
 deps = ["Static", "StaticArrayInterface"]
@@ -1040,6 +1046,11 @@ git-tree-sha1 = "8489905bcdbcfac64d1daa51ca07c0d8f0283821"
 uuid = "69de0a69-1ddd-5017-9359-2bf0b02dc9f0"
 version = "2.8.1"
 
+[[deps.Physics]]
+path = "src/Physics"
+uuid = "a4bc2ac6-fe07-43d0-9200-36b0d4c80a68"
+version = "0.1.0"
+
 [[deps.Pipe]]
 git-tree-sha1 = "6842804e7867b115ca9de748a0cf6b364523c16d"
 uuid = "b98c9c47-44ae-5843-9183-064241ee97a0"
@@ -1470,6 +1481,12 @@ deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
 version = "1.10.0"
 
+[[deps.Temporal_schemes]]
+deps = ["LinearAlgebra", "NonlinearSolve"]
+path = "src/Temporal_schemes"
+uuid = "72d79231-ab10-4af5-a52c-8ad6bef3ec45"
+version = "0.1.0"
+
 [[deps.TensorCore]]
 deps = ["LinearAlgebra"]
 git-tree-sha1 = "1feb45f88d133a655e001435632f019a9a1bcdb6"
@@ -1835,6 +1852,12 @@ deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
 git-tree-sha1 = "814e154bdb7be91d78b6802843f76b6ece642f11"
 uuid = "009596ad-96f7-51b1-9f1b-5ce2d5e8a71e"
 version = "1.1.6+0"
+
+[[deps.my_library]]
+deps = ["PackageCompiler"]
+path = "my_library"
+uuid = "8b58a052-e30a-466f-8e18-3ba7be0187f7"
+version = "0.1.0"
 
 [[deps.nghttp2_jll]]
 deps = ["Artifacts", "Libdl"]

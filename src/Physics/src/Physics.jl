@@ -1,4 +1,15 @@
-module Orbits 
+module Physics
+
+
+function Oscillator(U, t)
+
+    # x, dxdt = U[1], U[2], U[3], U[4]
+    x, dxdt = U[1], U[2]
+    
+    return   [ dxdt, -x ] 
+
+ end 
+
 
  function Kepler(U, t)
 

@@ -1,6 +1,10 @@
 
 module Cauchy_problem
 
+# using Pkg
+# Pkg.activate("./src/Cauchy_problem")
+# Pkg.add("OffsetArrays")
+
 using OffsetArrays: Origin
 
 

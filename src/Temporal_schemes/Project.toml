@@ -1,0 +1,8 @@
+name = "Temporal_schemes"
+uuid = "72d79231-ab10-4af5-a52c-8ad6bef3ec45"
+authors = ["Juan Hernandez <jahramos@gmail.com>"]
+version = "0.1.0"
+
+[deps]
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+NonlinearSolve = "8913a72c-1f9b-4ce2-8d82-65094dcecaec"

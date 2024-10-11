@@ -1,0 +1,7 @@
+name = "Cauchy_problem"
+uuid = "08da0cd1-a41d-4c5c-9aca-03c89827d83f"
+authors = ["Juan Hernandez <jahramos@gmail.com>"]
+version = "0.1.0"
+
+[deps]
+OffsetArrays = "6fe1bfb0-de20-5000-8ca7-80f57d26f881"

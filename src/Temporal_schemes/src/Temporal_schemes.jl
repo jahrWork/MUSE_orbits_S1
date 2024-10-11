@@ -1,6 +1,13 @@
 
 module Temporal_schemes
 
+
+# using Pkg
+# Pkg.activate("./src/Temporal_schemes")
+# Pkg.add("NonlinearSolve")
+# Pkg.add("LinearAlgebra")
+
+
   using NonlinearSolve
   using LinearAlgebra
 

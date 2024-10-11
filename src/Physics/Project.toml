@@ -1,0 +1,4 @@
+name = "Physics"
+uuid = "a4bc2ac6-fe07-43d0-9200-36b0d4c80a68"
+authors = ["Juan Hernandez <jahramos@gmail.com>"]
+version = "0.1.0"

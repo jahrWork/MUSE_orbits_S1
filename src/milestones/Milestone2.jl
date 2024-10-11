@@ -1,26 +1,14 @@
 
-module Milestone2
-
-#Uncomment tehe following lines to install once in a life these packages 
-# import Pkg 
-# Pkg.add("Revise")
-# Pkg.add("Plots")
-# Pkg.add("OffsetArrays")
-# Pkg.add("NonlinearSolve")
-
 using Plots
 using Revise 
 using OffsetArrays: Origin
 
-includet("./ODES/Cauchy_problem.jl")
-includet("./ODES/Temporal_schemes.jl")
-includet("./Physics/Orbits.jl")
+using Cauchy_problem: Cauchy_problem_solution
+using Temporal_schemes: Euler, RK4, Inverse_Euler, Crank_Nicolson, Embedded_RK 
+using Physics: Kepler, Oscillator 
 
-using ...Cauchy_problem: Cauchy_problem_solution
-using ...Temporal_schemes: Euler, RK4, Inverse_Euler, Crank_Nicolson, Embedded_RK 
-using ...Orbits: Kepler 
+  
 
-    
 #     This is a Simulation code to integrate Cauchy problems with some numerical scheme.
 #
 #     The objective of this Milestone is to create different functions or abstractions 
@@ -55,8 +43,10 @@ function Simulation( ; tf :: Float64, N :: Integer, U0 :: Vector)
 
     for (method, order, eps)  in schemes
        
-        U =  @time Cauchy_problem_solution( F = Kepler, t = time, U0 = U0, Temporal_scheme = method, order = order, Tolerance = eps ) 
+       # U =  @time Cauchy_problem_solution( F = Kepler, t = time, U0 = U0, Temporal_scheme = method, order = order, Tolerance = eps ) 
+        U =  @time Cauchy_problem_solution( F = Oscillator, t = time, U0 = U0, Temporal_scheme = method, order = order, Tolerance = eps ) 
       
+
         display( plot( U[:, 1], U[:, 2], aspect_ratio=:equal  ) )
         display( scatter( U[:, 1], U[:, 2], aspect_ratio=:equal )  )
 
@@ -64,6 +54,5 @@ function Simulation( ; tf :: Float64, N :: Integer, U0 :: Vector)
 
 end 
 
-end 
 
 # Simulation(tf = 4*2*pi, N = 40, U0 = [ 1., 0., 0., 1. ]  )
