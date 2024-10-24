@@ -2,6 +2,14 @@
 from numpy import array, sqrt 
 
 
+def oscillator(U, t): 
+
+    x = U[0];  dxdt = U[1]
+   
+
+    return  array( [ dxdt,  -x ] ) 
+
+
 #@jit(nopython=True)
 #@njit
 def Kepler(U, t): 
