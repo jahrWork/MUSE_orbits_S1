@@ -1,0 +1,21 @@
+from numpy import array, reshape 
+
+
+U = array( [1, 2, 3, 4])
+
+pU = U # alias 
+V = U.copy() #cloning 
+
+pU[0] = 2 
+pV = reshape( V, (2, 2))
+pV[0,0] = -1
+
+print(" U = ", U)
+print(" pU = ", pU)
+print(" V = ", V)
+print(" pV = ", pV)
+
+print(id(U))
+print(id(pU))
+print(id(V))
+print(id(pV))

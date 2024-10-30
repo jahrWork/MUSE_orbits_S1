@@ -11,20 +11,23 @@ def F(U,t):
 
 N = 200
 
-U = array( zeros([N, 2]) ) 
-t = array( zeros([N]) ) 
+U = array( zeros([N+1, 2]) ) 
+t = array( zeros([N+1]) ) 
 print( type(U) ) 
 
 U[0, :] = array( [1, 0] )
 
 
 dt = (4*pi)/N 
-t = linspace(0., 1., N)
+t = linspace(0., 1., N+1)
 
-for n in range(0, N-1): 
+for n in range(0, N): 
   U[n+1, :] = U[n,:]  + dt * F( U[n, :], t[n] )
 
 plt.axis("equal")
 plt.plot( U[:, 0], U[:,1] )
 plt.show()
+
+
+
 

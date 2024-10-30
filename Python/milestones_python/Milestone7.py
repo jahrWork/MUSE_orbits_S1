@@ -4,32 +4,31 @@ from ODES.Temporal_schemes import Euler, RK4, Embedded_RK
 from Physics.Orbits import Kepler, Arenstorf_equations 
 
 import matplotlib.pyplot as plt
-#import decorators 
 from miscellaneous import decorators 
 #from numba import njit 
 from numpy import array, zeros, linspace
 
 
 
-@decorators.profiling 
-def Arenstorf_orbit(tf, N, scheme, q = None, Tolerance = None):  
+#@decorators.profiling 
+def Arenstorf_orbit():  
 
+    tf = 2*17.0652165601579625  
+    N = 500 
     U0 = array([ 0.994, 0., 0., -2.0015851063790825 ])
+
     t = linspace(0, tf, N) 
-    U = Cauchy_problem( Arenstorf_equations, t, U0, scheme, q, Tolerance)
-    plt.axes().set_aspect('equal')
-    plt.plot(U[:,0] , U[:,1], ".")
-    plt.show()
+    schemes = [  (RK4, None, None ),  (Embedded_RK, 8, 1e-9)  ]
+    
+    for (method, order, eps)  in schemes:
+      U = Cauchy_problem( Arenstorf_equations, t, U0, method, q=order, Tolerance=eps)
+      plt.axes().set_aspect('equal')
+      plt.plot(U[:,0] , U[:,1], ".")
+      plt.show()
    
   
 
-if __name__ == "__main__":
 
-  #(tf = 100, N = 100, U0 = array( [ 1., 0., 0., 1. ] ) )
+Arenstorf_orbit( )
 
-  tf = 5*17.0652165601579625  
-  N = 100000
-
-  Arenstorf_orbit( tf, N, RK4 )
-  Arenstorf_orbit( tf, N, Embedded_RK, 8, 1e-8 )
 
