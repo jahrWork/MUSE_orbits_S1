@@ -1,7 +1,11 @@
 
 # import Pkg 
 # Pkg.add(["CPUTime",  "LinearAlgebra", "MKL",  "CpuId", "LoopVectorization"])
+#Pkg.add(["BenchmarkTools"])
+
 using CPUTime, LinearAlgebra, MKL, CpuId, LoopVectorization
+
+using BenchmarkTools
 
 
 function memory_access(Nt, M)
@@ -136,7 +140,7 @@ end
 
 
 Nt = 100
-N = 500 
+N = 50 
 
 # A = @time memory_access(Nt, N)
 
@@ -160,3 +164,5 @@ GFLOPSm, GFLOPS_max, _ = measure(matmul, Nt, N, 2*N^3*Nt)
 println( "GFLOPS matmul= ", GFLOPSm ) 
 println( "GFLOPS_max= ", GFLOPS_max )
 
+
+@benchmark matmul(Nt, N)
