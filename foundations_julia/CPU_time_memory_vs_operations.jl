@@ -86,6 +86,22 @@ function matmul(Nt, N)
 
 end 
 
+function matmul2(Nt, N)
+  
+  A = zeros(Float32, N, N)
+  B = zeros(Float32, N, N)
+  C = zeros(Float32, N, N)
+ 
+
+  Threads.@threads for k in 1:Nt 
+      BLAS.set_num_threads(1)
+      C =  k * A * B 
+  end
+
+  return C 
+end 
+
+
 function measure( operations, Nt, N, Nop )
 
 
@@ -139,8 +155,8 @@ end
 
 
 
-Nt = 100
-N = 50 
+Nt = 2000
+N = 400 # minimal N =400 to have max velocity/2 with 32 cores 
 
 # A = @time memory_access(Nt, N)
 
@@ -164,5 +180,10 @@ GFLOPSm, GFLOPS_max, _ = measure(matmul, Nt, N, 2*N^3*Nt)
 println( "GFLOPS matmul= ", GFLOPSm ) 
 println( "GFLOPS_max= ", GFLOPS_max )
 
+println("")
+GFLOPSm, GFLOPS_max, _ = measure(matmul2, Nt, N, 2*N^3*Nt)
+println( "GFLOPS matmul= ", GFLOPSm ) 
+println( "GFLOPS_max= ", GFLOPS_max )
 
-@benchmark matmul(Nt, N)
+
+#@benchmark matmul(Nt, N)
