@@ -1,5 +1,5 @@
 #from numba import njit
-from numpy import  zeros, float64, float32, log10, polyfit 
+from numpy import  zeros, float64, float32, log10, polyfit, reshape 
 #import miscellaneus.decorators
 from miscellaneous import decorators 
 from numpy.linalg import norm 
@@ -23,7 +23,7 @@ def Cauchy_problem( F, t, U0, Temporal_scheme, q=None, Tolerance=None ):
            U: matrix[N+1, Nv], Nv state values at N+1 time steps     
      """
 
-     N, Nv =  len(t)-1, len(U0)
+     N, Nv =  len(t)-1, U0.size
      U = zeros( (N+1, Nv), dtype=type(U0) )
      #U = zeros( (N+1, Nv), dtype=float64 ) 
 

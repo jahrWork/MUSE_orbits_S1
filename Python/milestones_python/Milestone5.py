@@ -7,33 +7,6 @@ from numpy.linalg import    norm
 
 import matplotlib.pyplot as plt
 
-#-----------------------------------------------------------------
-#  dvi/dt = - G m sum_j (ri- rj) / | ri -rj |**3, dridt = vi 
-#----------------------------------------------------------------- 
-def F_NBody(U, t, Nb, Nc): 
-     
- #   Write equations: Solution( body, coordinate, position-velocity )      
-     Us  = reshape( U, (Nb, Nc, 2) )  
-     F =  zeros(len(U))   
-     dUs = reshape( F, (Nb, Nc, 2) )  
-     
-     r = reshape( Us[:, :, 0], (Nb, Nc) )     # position and velocity 
-     v = reshape( Us[:, :, 1], (Nb, Nc) )
-     
-     drdt = reshape( dUs[:, :, 0], (Nb, Nc) ) # derivatives
-     dvdt = reshape( dUs[:, :, 1], (Nb, Nc) )
-    
-     dvdt[:,:] = 0  # WARNING dvdt = 0, does not work 
-    
-     for i in range(Nb):   
-       drdt[i,:] = v[i,:]
-       for j in range(Nb): 
-         if j != i:  
-           d = r[j,:] - r[i,:]
-           dvdt[i,:] = dvdt[i,:] +  d[:] / norm(d)**3 
-    
-     return F
-
 
 #------------------------------------------------------------
 #  Initial codition: 6 degrees of freedom per body  
@@ -63,6 +36,32 @@ def Initial_positions_and_velocities( Nc, Nb ):
 
     return U0  
 
+#-----------------------------------------------------------------
+#  dvi/dt = - G m sum_j (ri- rj) / | ri -rj |**3, dridt = vi 
+#----------------------------------------------------------------- 
+def F_NBody(U, t, Nb, Nc): 
+     
+ #   Write equations: Solution( body, coordinate, position-velocity )      
+     Us  = reshape( U, (Nb, Nc, 2) )  
+     F =  zeros(len(U))   
+     dUs = reshape( F, (Nb, Nc, 2) )  
+     
+     r = reshape( Us[:, :, 0], (Nb, Nc) )     # position and velocity 
+     v = reshape( Us[:, :, 1], (Nb, Nc) )
+     
+     drdt = reshape( dUs[:, :, 0], (Nb, Nc) ) # derivatives
+     dvdt = reshape( dUs[:, :, 1], (Nb, Nc) )
+    
+     dvdt[:,:] = 0  # WARNING dvdt = 0, does not work 
+    
+     for i in range(Nb):   
+       drdt[i,:] = v[i,:]
+       for j in range(Nb): 
+         if j != i:  
+           d = r[j,:] - r[i,:]
+           dvdt[i,:] = dvdt[i,:] +  d[:] / norm(d)**3 
+    
+     return F
 
 
 #------------------------------------------------------------------
@@ -78,7 +77,6 @@ def Integrate_NBP():
    N =  1000    # time steps 
    Nb = 4      # bodies 
    Nc = 3      # coordinates 
-   Nt = (N+1) * 2 * Nc * Nb
 
    t0 = 0; tf = 4 * pi 
    Time = linspace(t0, tf, N+1) # Time(0:N) 

@@ -18,7 +18,7 @@ def Arenstorf_orbit():
     U0 = array([ 0.994, 0., 0., -2.0015851063790825 ])
 
     t = linspace(0, tf, N) 
-    schemes = [  (RK4, None, None ),  (Embedded_RK, 8, 1e-9)  ]
+    schemes = [  (RK4, None, None ),  (Embedded_RK, 8, 1e-12)  ]
     
     for (method, order, eps)  in schemes:
       U = Cauchy_problem( Arenstorf_equations, t, U0, method, q=order, Tolerance=eps)
