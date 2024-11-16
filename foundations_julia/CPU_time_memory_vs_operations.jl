@@ -3,7 +3,7 @@
 # Pkg.add(["CPUTime",  "LinearAlgebra", "MKL",  "CpuId", "LoopVectorization"])
 #Pkg.add(["BenchmarkTools"])
 
-using CPUTime, LinearAlgebra, MKL, CpuId, LoopVectorization
+using CPUTime, LinearAlgebra, MKL, CpuId
 
 using BenchmarkTools
 using Printf
@@ -116,11 +116,8 @@ function mult_op(Nt, N)
 
 end 
 
-function matmul(Nt, N)
 
-  A = zeros(Float32, N, N)
-  B = zeros(Float32, N, N)
-  C = zeros(Float32, N, N)
+function matmul(Nt, A, B, C)
 
   for j in 1:Nt 
     C = j *  A * B  
@@ -130,15 +127,10 @@ function matmul(Nt, N)
 
 end 
 
-function matmul_1t(Nt, N)
+function matmul_1t(Nt, A, B, C)
   
-  A = zeros(Float32, N, N)
-  B = zeros(Float32, N, N)
-  C = zeros(Float32, N, N)
- 
-
+  BLAS.set_num_threads(1)
   Threads.@threads for k in 1:Nt 
-      BLAS.set_num_threads(1)
       C =  k * A * B 
   end
 
@@ -146,11 +138,7 @@ function matmul_1t(Nt, N)
 end 
 
 
-function mul(Nt, N)
-
-  A = zeros(Float32, N, N)
-  B = zeros(Float32, N, N)
-  C = zeros(Float32, N, N)
+function mul(Nt, A, B, C)
 
   for j in 1:Nt 
     mul!(A, B, C)  
@@ -162,14 +150,10 @@ end
 
 
 
-function mul_1t(Nt, N)
+function mul_1t(Nt, A, B, C)
 
-  A = zeros(Float32, N, N)
-  B = zeros(Float32, N, N)
-  C = zeros(Float32, N, N)
-
+  BLAS.set_num_threads(1)
   Threads.@threads for j in 1:Nt
-    BLAS.set_num_threads(1)
     mul!(A, B, C)  
   end 
   
@@ -183,18 +167,26 @@ function measure( operations, Nt, N, Nop )
 
 
   N_threads = Threads.nthreads()
-  
+  A = zeros(Float32, N, N)
+  B = zeros(Float32, N, N)
+  C = zeros(Float32, N, N)
+
 
   BLAS.set_num_threads(N_threads) 
+  # warm up
+  x = operations(Nt, A, B, C) 
 
   t1 = time_ns() 
-  x = operations(Nt, N) 
-  y = x
+  x = operations(Nt, A, B, C) 
   t2 = time_ns() 
+  dt = t2 - t1 
+
+  dt = @belapsed $operations($Nt, $A, $B, $C)
+  dt =  dt * 1e9
   #println("t1 =", t1, " t2 = ", t2, " t2-t1 =", t2-t1)
   
   
-  GFLOPS =  Nop / (t2-t1)
+  GFLOPS =  Nop / dt
   GFLOPS  = trunc(Int, GFLOPS)
 
   pretty_print(N, Nt,  operations, GFLOPS, BLAS.get_num_threads()  )
@@ -218,31 +210,30 @@ end
 
 
 
-Nt = 2000
-N = 500 # minimal N =400 to have max velocity/2 with 32 cores 
+# Nt = 2000
+# N = 500 # minimal N =400 to have max velocity/2 with 32 cores 
 
-pretty_print("N", "Nt", "Operations", "GHz", "Threads" )
+# pretty_print("N", "Nt", "Operations", "GHz", "Threads" )
 
 
-GHz = measure(memory_access, Nt, N, N^2*Nt)
-# #println( "memory GHz_max= ", GHz_max )
-GHz = measure(mem_by_columns, Nt, N, N^2*Nt)
-println("\n")
+# GHz = measure(memory_access, Nt, N, N^2*Nt)
+# # #println( "memory GHz_max= ", GHz_max )
+# GHz = measure(mem_by_columns, Nt, N, N^2*Nt)
+# println("\n")
+
+# N = 10000000; Nt = 200000
+# GFLOPSm = measure(mult_op, Nt, N, N^2*Nt)
 
 
 pretty_print("N", "Nt", "Operations", "GFLOPS", "Threads" )
-# N = 10000000; Nt = 200000
-# GFLOPSm = measure(mult_op, Nt, N, N^2*Nt)
-N = 50;  Nt = 20000
-GFLOPSm = measure(matmul,    Nt, N, 2*N^3*Nt)
-GFLOPSm = measure(matmul_1t, Nt, N, 2*N^3*Nt)
-GFLOPSm = measure(mul,       Nt, N, 2*N^3*Nt)
-GFLOPSm = measure(mul_1t,    Nt, N, 2*N^3*Nt)
-N = 500; Nt = 200
-GFLOPSm = measure(matmul,    Nt, N, 2*N^3*Nt)
-GFLOPSm = measure(matmul_1t, Nt, N, 2*N^3*Nt)
-GFLOPSm = measure(mul,       Nt, N, 2*N^3*Nt)
-GFLOPSm = measure(mul_1t,    Nt, N, 2*N^3*Nt)
+dim = [(50, 10000), (500, 200), (5000, 2)]
+test =[ matmul, matmul_1t, mul, mul_1t]
+for (N,Nt) in dim 
+  for f in test 
+    GFLOPS = measure(f,    Nt, N, 2*N^3*Nt)
+  end 
+end
+
 
 println( "\n GFLOPS_max: ", GFLOPs_max()  )
 
