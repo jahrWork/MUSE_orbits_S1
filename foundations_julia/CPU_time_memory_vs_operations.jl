@@ -6,6 +6,48 @@
 using CPUTime, LinearAlgebra, MKL, CpuId, LoopVectorization
 
 using BenchmarkTools
+using Printf
+
+
+
+
+
+function get_avx_value()
+
+  cpuid = cpuinfo() 
+  string_cpuid = string(cpuid)
+   
+  if occursin("256 bit", string_cpuid)
+      AVX_value = 8
+  elseif occursin("512 bit", string_cpuid)
+      AVX_value = 16
+  else
+      AVX_value = 0
+  end
+  
+  #println("AVX support: ", occursin("256", string_cpuid))
+  #println("AVX-512 support: ", occursin("512 bit", string_cpuid))
+
+
+  return AVX_value
+
+end
+
+
+function GFLOPs_max( )
+
+
+  N_threads = Threads.nthreads()
+  N_cores = trunc(Int, N_threads/2)
+  AVX_value = get_avx_value()
+  
+  Theoretical_time = 1e9 /(4.5e9 * AVX_value * 2 * N_cores)
+  GFLOPSmax = 1 / Theoretical_time
+
+  return GFLOPSmax
+
+
+end 
 
 
 function memory_access(Nt, M)
@@ -24,7 +66,8 @@ function memory_access(Nt, M)
   return A 
 
 end
-function memory_access2(Nt, M)
+
+function mem_by_columns(Nt, M)
 
 
   A = zeros( M, M)
@@ -58,16 +101,17 @@ function memory_allocate(Nt, M)
 end
 
 
-function operations(Nt, N)
+function mult_op(Nt, N)
 
   x = 2.6
   rho = 0.9999999999
   for j in 1:Nt 
     for i in 1:N^2 
-     x = rho * x 
+     x = rho * x * j
     end 
   end 
   
+ 
   return x 
 
 end 
@@ -86,7 +130,7 @@ function matmul(Nt, N)
 
 end 
 
-function matmul2(Nt, N)
+function matmul_1t(Nt, N)
   
   A = zeros(Float32, N, N)
   B = zeros(Float32, N, N)
@@ -102,52 +146,71 @@ function matmul2(Nt, N)
 end 
 
 
+function mul(Nt, N)
+
+  A = zeros(Float32, N, N)
+  B = zeros(Float32, N, N)
+  C = zeros(Float32, N, N)
+
+  for j in 1:Nt 
+    mul!(A, B, C)  
+  end 
+  
+  return C 
+
+end 
+
+
+
+function mul_1t(Nt, N)
+
+  A = zeros(Float32, N, N)
+  B = zeros(Float32, N, N)
+  C = zeros(Float32, N, N)
+
+  Threads.@threads for j in 1:Nt
+    BLAS.set_num_threads(1)
+    mul!(A, B, C)  
+  end 
+  
+  return C 
+
+end 
+
+
+
 function measure( operations, Nt, N, Nop )
 
 
   N_threads = Threads.nthreads()
-  N_cores = trunc(Int, N_threads/2)
-  AVX_value = get_avx_value()
-  println("AVX_value  ", AVX_value, " N_cores = ", N_cores) 
   
-  Theoretical_time = 1e9 /(4.5e9 * AVX_value * 2 * N_cores)
-  GFLOPS_max = 1 / Theoretical_time
 
   BLAS.set_num_threads(N_threads) 
-  println( "num_threads = ", BLAS.get_num_threads() )
-
 
   t1 = time_ns() 
   x = operations(Nt, N) 
+  y = x
   t2 = time_ns() 
   #println("t1 =", t1, " t2 = ", t2, " t2-t1 =", t2-t1)
   
   
-  GFLOPS = Nop / (t2-t1)
+  GFLOPS =  Nop / (t2-t1)
+  GFLOPS  = trunc(Int, GFLOPS)
 
-  return GFLOPS, GFLOPS_max, x 
+  pretty_print(N, Nt,  operations, GFLOPS, BLAS.get_num_threads()  )
+
+  return GFLOPS
 
 end 
 
 
 
 
-function get_avx_value()
-
-  cpuid = cpuinfo() 
-  string_cpuid = string(cpuid)
-  #println("AVX support: ", occursin("256", string_cpuid))
-  #println("AVX-512 support: ", occursin("512 bit", string_cpuid))
-   
-  if occursin("256 bit", string_cpuid)
-      AVX_value = 8
-  elseif occursin("512 bit", string_cpuid)
-      AVX_value = 16
-  else
-      AVX_value = 0
-  end
-  
-  return AVX_value
+function pretty_print(c1, c2, c3, c4, c5)
+       
+      
+  @printf("%10s %10s %-15s %10s  %10s  \n", c1, c2, c3, c4, c5)
+ 
 
 end
 
@@ -156,34 +219,32 @@ end
 
 
 Nt = 2000
-N = 400 # minimal N =400 to have max velocity/2 with 32 cores 
+N = 500 # minimal N =400 to have max velocity/2 with 32 cores 
 
-# A = @time memory_access(Nt, N)
-
-# A = @time memory_access2(Nt, N)
-# #A = @time memory_allocate(Nt, N)
-# x = @time operations(Nt, N)
-# println( "number of memory accesses = ", N^2 ) 
-# println( "number of operations = ", N^2) 
-
-GHz, GHz_max, _ = measure(memory_access, Nt, N, N^2*Nt)
-println( "memory GHz = ", GHz ) 
-println( "memory GHz_max= ", GHz_max )
+pretty_print("N", "Nt", "Operations", "GHz", "Threads" )
 
 
-GFLOPSm, GFLOPS_max, _ = measure(operations, Nt, N, N^2*Nt)
-println( "GFLOPS operations = ", GFLOPSm ) 
-println( "GFLOPS_max= ", GFLOPS_max )
-
-println("")
-GFLOPSm, GFLOPS_max, _ = measure(matmul, Nt, N, 2*N^3*Nt)
-println( "GFLOPS matmul= ", GFLOPSm ) 
-println( "GFLOPS_max= ", GFLOPS_max )
-
-println("")
-GFLOPSm, GFLOPS_max, _ = measure(matmul2, Nt, N, 2*N^3*Nt)
-println( "GFLOPS matmul= ", GFLOPSm ) 
-println( "GFLOPS_max= ", GFLOPS_max )
+GHz = measure(memory_access, Nt, N, N^2*Nt)
+# #println( "memory GHz_max= ", GHz_max )
+GHz = measure(mem_by_columns, Nt, N, N^2*Nt)
+println("\n")
 
 
-#@benchmark matmul(Nt, N)
+pretty_print("N", "Nt", "Operations", "GFLOPS", "Threads" )
+# N = 10000000; Nt = 200000
+# GFLOPSm = measure(mult_op, Nt, N, N^2*Nt)
+N = 50;  Nt = 20000
+GFLOPSm = measure(matmul,    Nt, N, 2*N^3*Nt)
+GFLOPSm = measure(matmul_1t, Nt, N, 2*N^3*Nt)
+GFLOPSm = measure(mul,       Nt, N, 2*N^3*Nt)
+GFLOPSm = measure(mul_1t,    Nt, N, 2*N^3*Nt)
+N = 500; Nt = 200
+GFLOPSm = measure(matmul,    Nt, N, 2*N^3*Nt)
+GFLOPSm = measure(matmul_1t, Nt, N, 2*N^3*Nt)
+GFLOPSm = measure(mul,       Nt, N, 2*N^3*Nt)
+GFLOPSm = measure(mul_1t,    Nt, N, 2*N^3*Nt)
+
+println( "\n GFLOPS_max: ", GFLOPs_max()  )
+
+
+
