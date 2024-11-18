@@ -52,10 +52,11 @@ def F_NBody(U, t, Nb, Nc):
      drdt = reshape( dUs[:, :, 0], (Nb, Nc) ) # derivatives
      dvdt = reshape( dUs[:, :, 1], (Nb, Nc) )
     
+     
      dvdt[:,:] = 0  # WARNING dvdt = 0, does not work 
     
      for i in range(Nb):   
-       drdt[i,:] = v[i,:]
+       drdt[i,:] = v[i,:] # WARNING drdt = v does not work 
        for j in range(Nb): 
          if j != i:  
            d = r[j,:] - r[i,:]
