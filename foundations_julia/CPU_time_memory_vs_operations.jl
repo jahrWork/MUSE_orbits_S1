@@ -224,8 +224,9 @@ end
 # N = 10000000; Nt = 200000
 # GFLOPSm = measure(mult_op, Nt, N, N^2*Nt)
 
+println( "\n GFLOPS_max: ", GFLOPs_max()  )
 
-pretty_print("N", "Nt", "Operations", "GFLOPS", "Threads" )
+pretty_print("\n N", "Nt", "Operations", "GFLOPS", "Threads" )
 dim = [(50, 10000), (500, 200), (5000, 2)]
 test =[ matmul, matmul_1t, mul, mul_1t]
 for (N,Nt) in dim 
@@ -235,7 +236,6 @@ for (N,Nt) in dim
 end
 
 
-println( "\n GFLOPS_max: ", GFLOPs_max()  )
 
 
 
