@@ -1,13 +1,6 @@
-import Pkg 
-#Pkg.resolve()
-#Pkg.instantiate()
-Pkg.add("Hwloc")
-Pkg.add("CUDA")
-Pkg.add("CpuId")
+# author : Pedro Rodriguez Jimenez dic 2024
 
 using CUDA, Hwloc, CpuId
-
-# Remeber to enter your cpu_frequency manually
 
 # GPU Functions
 function get_GPU_architecture(capability)
