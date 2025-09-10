@@ -38,15 +38,7 @@ function cuda_cores_per_sm(capability)
         return 32
     end
 end
-
-function gpu_info(return_max_gflops=false)
-    device = CUDA.device()
-    capability = CUDA.capability(device)
-    sm_count = CUDA.attribute(device, CUDA.DEVICE_ATTRIBUTE_MULTIPROCESSOR_COUNT)
-    cores_per_sm = cuda_cores_per_sm(capability)
-    total_cuda_cores = sm_count * cores_per_sm
-    clock_rate = CUDA.attribute(device, CUDA.DEVICE_ATTRIBUTE_CLOCK_RATE) / 1e6
-    max_gflops = 2 * clock_rate * total_cuda_cores
+  da_cores
 
     if return_max_gflops
         return max_gflops
