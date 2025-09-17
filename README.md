@@ -1,5 +1,5 @@
 # MUSE Milestones
-### [contents PDF](https://github.com/jahrWork/MUSE_orbits_S1/blob/master/docs/MUSE_weekly_milestones.pdf)
+### [contents PDF](https://github.com/jahrWork/MUSE_orbits_S1/tree/master/docs/build/MUSE_weekly_milestones.pdf)
 
 Create: 
 1. /src/milestones/hello.py. It should print "Hello" (first week) 
