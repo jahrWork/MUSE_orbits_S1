@@ -99,7 +99,7 @@ def refine_mesh(t1):
 def Temporal_convergence_rate( t, F, U0, Scheme): 
                            
       N = len(t) - 1
-      m = 7 
+      m = 14
       log_E = zeros(m+1)
       log_N = zeros(m+1)
 
@@ -114,7 +114,7 @@ def Temporal_convergence_rate( t, F, U0, Scheme):
 
           t1 = refine_mesh(t1)
       
-      y = log_E[ log_E > -12 ]
+      y = log_E[ log_E > -12  ]
       x = log_N[ 0:len(y) ]
       order, b = polyfit(x, y, 1)
 

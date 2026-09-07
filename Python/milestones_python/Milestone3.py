@@ -39,7 +39,8 @@ def Convergence_error(tf, N, U0, F):
    
 
     t = linspace(0, tf, N)
-    schemes = [  (Euler, None, None ) ,  (RK4, None, None) , (Inverse_Euler, None, None), (Crank_Nicolson, None, None)  ]
+    #schemes = [  (Euler, None, None ) ,  (RK4, None, None) , (Inverse_Euler, None, None), (Crank_Nicolson, None, None)  ]
+    schemes = [   (RK4, None, None)  ]
     
     for (method, order, eps)  in schemes:
 
@@ -49,9 +50,10 @@ def Convergence_error(tf, N, U0, F):
        plt.plot( log_N , log_E)
        plt.plot( log_N , log_E, ".")
        plt.show()
+      
        
 
 
 
 #Simulation_error(tf = 8*pi, N = 16000, U0 = array( [ 1., 0. ] ),   F = oscillator  )
-Convergence_error(tf = 8*pi, N = 1000, U0 = array( [ 1., 0. ] ), F=oscillator )
+Convergence_error(tf = 8*pi, N = 10, U0 = array( [ 1., 0. ] ), F=oscillator )

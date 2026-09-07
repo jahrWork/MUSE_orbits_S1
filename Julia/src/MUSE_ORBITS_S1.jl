@@ -1,5 +1,5 @@
 module MUSE_ORBITS_S1
-#Uncomment tehe following lines to install once in a life these packages 
+#Uncomment the following lines to install once in a life these packages 
 #import Pkg 
 #Pkg.add("Revise")
 # Pkg.add("Plots")
