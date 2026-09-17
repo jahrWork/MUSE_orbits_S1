@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1789670934.06707 "c:/Dropbox/Software_codes/Simulation/MUSE_orbits_S1/docs/PEI1.tex" "PEI1.pdf" "PEI1" 1789670936.27773 0
+["pdflatex"] 1789676368.94139 "c:/Dropbox/Software_codes/Simulation/MUSE_orbits_S1/docs/PEI1.tex" "PEI1.pdf" "PEI1" 1789676371.42266 0
   "C:/Program Files/MiKTeX/tex/generic/bigintcalc/bigintcalc.sty" 1576433602 40635 c40361e206be584d448876bba8a64a3b ""
   "C:/Program Files/MiKTeX/tex/generic/bitset/bitset.sty" 1575926576 33961 6b5c75130e435b2bfdb9f480a09a39f9 ""
   "C:/Program Files/MiKTeX/tex/generic/etexcmds/etexcmds.sty" 1576433638 7734 b98cbb34c81f667027c1e3ebdbfce34b ""
@@ -117,10 +117,10 @@
   "C:/Users/JAHR/AppData/Local/Programs/MiKTeX/tex/latex/tools/tabularx.sty" 1667242266 7147 be6981d9f5d866a5634048c4a11814a9 ""
   "C:/Users/JAHR/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Users/JAHR/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1656236890 56148 51a9a8571c07b9921892ae11063ae853 ""
-  "PEI1.aux" 1789670935 2376 b6aabed97bb45ffe3f0584df6f57fbaf "pdflatex"
-  "PEI1.out" 1789670935 2580 1b29a119cb16ad7c2eb2a22f636e5932 "pdflatex"
-  "PEI1.tex" 1789670932 17995 1bb252e4d3c5bbcc0644932c5b9f1009 ""
-  "c:/Dropbox/Software_codes/Simulation/MUSE_orbits_S1/docs/PEI1.tex" 1789670932 17995 1bb252e4d3c5bbcc0644932c5b9f1009 ""
+  "PEI1.aux" 1789676371 2376 b6aabed97bb45ffe3f0584df6f57fbaf "pdflatex"
+  "PEI1.out" 1789676371 2580 1b29a119cb16ad7c2eb2a22f636e5932 "pdflatex"
+  "PEI1.tex" 1789676368 17968 5208673aa8a6ed02bdf05f678fc4718c ""
+  "c:/Dropbox/Software_codes/Simulation/MUSE_orbits_S1/docs/PEI1.tex" 1789676368 17968 5208673aa8a6ed02bdf05f678fc4718c ""
   (generated)
   "PEI1.aux"
   "PEI1.log"

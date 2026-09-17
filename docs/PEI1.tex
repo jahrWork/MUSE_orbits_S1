@@ -85,9 +85,11 @@ de software científico estructurado en Python dotado de una interfaz gráfica d
 \section{Formulación Rigurosa del Problema Dinámico}
 
 \subsection{Cinemática y Ecuaciones de Euler en Ejes Principales}
-Considérese un vehículo espacial no deformable que evoluciona en el régimen de giro libre en el vacío orbital, libre de torques externos ($\mathbf{N}_{\text{ext}} = \mathbf{0}$). Fijando un sistema coordenado solidario al cuerpo centrado en su centro de masas y alineado estrictamente con sus tres ejes principales de inercia, el tensor de inercia adopta forma diagonal:
+Considérese un vehículo espacial no deformable que 
+evoluciona en el régimen de giro libre en el vacío orbital, 
+libre de pares de fuerzas externas ($\mathbf{N}_{\text{ext}} = \mathbf{0}$). Fijando un sistema coordenado solidario al cuerpo centrado en su centro de masas y alineado estrictamente con sus tres ejes principales de inercia, el tensor de inercia adopta forma diagonal:
 \begin{equation}
-\mathbf{I} = \text{diag}(I_1, I_2, I_3), \quad \text{con convención de ordenamiento:} \quad 0 < I_1 < I_2 < I_3
+\mathbf{I} = \text{diag}(I_1, I_2, I_3), \quad \text{con:} \quad 0 < I_1 < I_2 < I_3
 \end{equation}
 donde $I_1$ corresponde al momento de inercia mínimo, $I_2$ al eje intermedio y $I_3$ al momento de inercia máximo. Denotando el vector de velocidad angular instantánea expresado en ejes del cuerpo como $\boldsymbol{\omega} = [\omega_1, \omega_2, \omega_3]^T \in \mathbb{R}^3$, la conservación del momento angular total $\frac{d\mathbf{L}}{dt}\big|_{\text{inercial}} = \mathbf{0}$ expresada en el marco móvil da origen a las clásicas \textbf{ecuaciones dinámicas de Euler}:
 \begin{equation}\label{eq:euler}
@@ -126,7 +128,10 @@ Las trayectorias admisibles del sistema físico en el espacio de fases tridimens
 Para cualquier movimiento mecánicamente realizable, la compatibilidad algebraica de las dos cuádricas impone la cota universal $2 I_1 T \le L^2 \le 2 I_3 T$.
 
 \subsection{Linealización Espectral y Demostración del Teorema}
-El campo vectorial continuo $\dot{\boldsymbol{\omega}} = \mathbf{f}(\boldsymbol{\omega})$ presenta tres familias fundamentales de puntos de equilibrio en el espacio de fases, correspondientes a rotaciones puras sobre cada uno de los ejes principales de inercia con velocidad angular nominal $\Omega \in \mathbb{R}\setminus\{0\}$:
+El campo vectorial continuo $\dot{\boldsymbol{\omega}} = \mathbf{f}(\boldsymbol{\omega})$ 
+presenta tres familias fundamentales de puntos de equilibrio en el espacio de fases, 
+correspondientes a rotaciones puras sobre cada uno de los ejes principales de 
+inercia con velocidad angular nominal $\Omega \neq 0$:
 \begin{equation}
 \boldsymbol{\omega}^{*(1)} = [\Omega, 0, 0]^T, \qquad \boldsymbol{\omega}^{*(2)} = [0, \Omega, 0]^T, \qquad \boldsymbol{\omega}^{*(3)} = [0, 0, \Omega]^T
 \end{equation}
@@ -186,7 +191,7 @@ fundamentada en principios rigurosos de ingeniería del software,
 articulada en tres subsistemas desacoplados:
 \begin{itemize}[leftmargin=*]
     \item \textbf{Capa Física (\texttt{space\_physics}):} Encapsula la definición analítica de 
-	las ecuaciones de Euler, el cómputo de la matriz Jacobiana exacta, 
+	las ecuaciones del problema, el cómputo de la matriz Jacobiana exacta, 
 	la verificación de los invariantes $2T$ y $L^2$.
 	 \item \textbf{Capa Matemática y Algorítmica (\texttt{numerical\_engine}):} Integra esquemas
 	  temporales de paso simple y adaptativo (Euler, Crank-Nicolson, RK4), 
