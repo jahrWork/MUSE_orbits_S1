@@ -1,0 +1,259 @@
+\documentclass[11pt, a4paper]{article}
+
+\usepackage[a4paper, top=2.3cm, bottom=2.3cm, left=1.9cm, right=1.9cm]{geometry}
+%\usepackage{fontspec}
+
+\usepackage[spanish]{babel}
+
+% Set default Latin font to Sans Serif (Noto Sans)
+%\babelfont{rm}{Noto Sans}
+
+% Ensure standard list bullets render properly with Babel
+\usepackage{enumitem}
+\setlist[itemize]{label=-}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{xcolor}
+
+% Hyperref must always be the very last package loaded
+\usepackage[colorlinks=true, linkcolor=blue, urlcolor=blue, citecolor=blue]{hyperref}
+
+\title{\vspace{-1.5cm}\textbf{\LARGE UNIVERSIDAD POLITÉCNICA DE MADRID}\\[0.3em]
+\textbf{\large Escuela Técnica Superior de Ingeniería Aeronáutica y del Espacio (ETSIAE)}\\[0.2em]
+\textbf{\normalsize Máster Universitario en Sistemas Espaciales (MUSE) --- Curso 2026--2027}\\[0.5em]
+\hrule height 1pt \vspace{0.6em}
+\textbf{\Large Ampliación de Matemáticas 1 }\\[0.3em]
+\textbf{\large Enunciado Oficial: Prueba de Evaluación Intermedia I (PEI 1)}\\[0.2em]
+\textsl{Dinámica de Actitud Satelital: Teorema del Eje Intermedio, Análisis Espectral y Entorno Reactivo en Python}\vspace{0.4em}
+\hrule height 0.5pt \vspace{-0.5em}}
+\author{\textbf{Coordinador:} Dr. Juan Antonio Hernández Ramos \quad  
+\textbf{Convocatoria:} Evaluación Progresiva}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{rX rX}
+\toprule
+\textbf{Actividad:} & Prueba de Evaluación Intermedia I (PEI 1) & \textbf{Ponderación:} & 50\% Calificación Progresiva \\
+\textbf{Modalidad:} & Proyecto en Grupo + Defensa Oral Individual & \textbf{Nota Mínima:} & 3.0 / 10.0 (para promediar) \\
+\textbf{Tribunal Evaluador:} & Mínimo 2 profesores (acto público colegiado) & \textbf{Duración:} & 20 min exposición + 15 min defensa \\
+\textbf{Marco Físico:} & Dinámica del sólido rígido y estabilidad de actitud & \textbf{Entorno Software:} & Arquitectura en Python con GUI reactiva \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\vspace{0.4em}
+
+\section{Contexto Académico y Relevancia en la Ingeniería Aeroespacial}
+
+Uno de los fenómenos más contraintuitivos y trascendentales en la mecánica de sistemas 
+espaciales es el conocido como \textbf{Teorema del Eje Intermedio} 
+(también documentado históricamente como el \textit{teorema de la raqueta de tenis} 
+o \textit{efecto Dzhanibekov}, redescubierto visualmente por el cosmonauta soviético Vladimir Dzhanibekov 
+en 1985 a bordo de la estación orbital Salyut 7). 
+El fenómeno establece que la rotación libre de un cuerpo rígido asimétrico en torno a sus ejes 
+principales de inercia con momentos máximo y mínimo es dinámicamente estable frente a 
+perturbaciones infinitesimales, mientras que la rotación alrededor del eje de inercia 
+intermedio es estrictamente inestable, dando lugar a una inversión periódica dramática 
+de 180 grados en la orientación relativa del vehículo.
+
+En la historia de la ingeniería espacial, 
+la incomprensión o modelado defectuoso de la estabilidad rotacional ha provocado 
+fallos notorios de misión. El caso paradigmático del satélite estadounidense \textit{Explorer 1} (1958) 
+evidenció cómo la presencia de elementos deformables o disipativos 
+altera las cuencas de estabilidad, pasando de una rotación nominal 
+sobre el eje de menor inercia a una transición no deseada hacia el eje 
+de máxima inercia (\textit{major axis rule}). Asimismo, en misiones de 
+retirada activa de basura espacial (\textit{Active Debris Removal}, ADR) y acoplamiento 
+autónomo (\textit{rendezvous \& docking}), la caracterización del movimiento de precesión 
+libre y volteo asimétrico de etapas de cohetes abandonadas y asteroides triaxiales resulta 
+imprescindible para garantizar trayectorias de captura no destructivas.
+
+El propósito de la presente Prueba de Evaluación Intermedia I es formular, 
+analizar cualitativamente y simular computacionalmente la dinámica rotacional 
+no lineal del sólido libre y la inestabilidad del eje intermedio mediante un entorno 
+de software científico estructurado en Python dotado de una interfaz gráfica de usuario interactiva (GUI).
+
+\section{Formulación Rigurosa del Problema Dinámico}
+
+\subsection{Cinemática y Ecuaciones de Euler en Ejes Principales}
+Considérese un vehículo espacial no deformable que evoluciona en el régimen de giro libre en el vacío orbital, libre de torques externos ($\mathbf{N}_{\text{ext}} = \mathbf{0}$). Fijando un sistema coordenado solidario al cuerpo centrado en su centro de masas y alineado estrictamente con sus tres ejes principales de inercia, el tensor de inercia adopta forma diagonal:
+\begin{equation}
+\mathbf{I} = \text{diag}(I_1, I_2, I_3), \quad \text{con convención de ordenamiento:} \quad 0 < I_1 < I_2 < I_3
+\end{equation}
+donde $I_1$ corresponde al momento de inercia mínimo, $I_2$ al eje intermedio y $I_3$ al momento de inercia máximo. Denotando el vector de velocidad angular instantánea expresado en ejes del cuerpo como $\boldsymbol{\omega} = [\omega_1, \omega_2, \omega_3]^T \in \mathbb{R}^3$, la conservación del momento angular total $\frac{d\mathbf{L}}{dt}\big|_{\text{inercial}} = \mathbf{0}$ expresada en el marco móvil da origen a las clásicas \textbf{ecuaciones dinámicas de Euler}:
+\begin{equation}\label{eq:euler}
+\begin{cases}
+I_1 \dot{\omega}_1 - (I_2 - I_3)\,\omega_2 \omega_3 = 0 \\[0.4em]
+I_2 \dot{\omega}_2 - (I_3 - I_1)\,\omega_3 \omega_1 = 0 \\[0.4em]
+I_3 \dot{\omega}_1 - (I_1 - I_2)\,\omega_1 \omega_2 = 0
+\end{cases}
+\iff
+\begin{cases}
+\dot{\omega}_1 = \dfrac{I_2 - I_3}{I_1}\,\omega_2 \omega_3 \\[0.6em]
+\dot{\omega}_2 = \dfrac{I_3 - I_1}{I_2}\,\omega_3 \omega_1 \\[0.6em]
+\dot{\omega}_3 = \dfrac{I_1 - I_2}{I_3}\,\omega_1 \omega_2
+\end{cases}
+\end{equation}
+
+\subsection{Integrales Primeras Invariantes y Geometría de Poinsot}
+El sistema de orden tres no lineal \eqref{eq:euler} es conservativo y admite dos integrales primeras analíticas independientes y globales:
+\begin{enumerate}[leftmargin=*]
+    \item \textbf{Energía Cinética Rotacional ($2T$):} Dado que el trabajo de las fuerzas externas es nulo, la energía rotacional es estrictamente invariante en el tiempo:
+    \begin{equation}
+    2T = \boldsymbol{\omega} \cdot (\mathbf{I}\boldsymbol{\omega}) = I_1 \omega_1^2 + I_2 \omega_2^2 + I_3 \omega_3^2 = 2T_0 = \text{cte}
+    \end{equation}
+    Geométricamente, para un valor prefijado de $T$, esta ecuación define en el espacio de fases $(\omega_1, \omega_2, \omega_3)$ un \textbf{elipsoide de energía} concéntrico de semiejes $\sqrt{2T/I_1} > \sqrt{2T/I_2} > \sqrt{2T/I_3}$.
+    \item \textbf{Módulo del Momento Angular ($\|\mathbf{L}\|^2$):} Al no existir torques exteriores, la norma euclídea del vector momento angular inercial $\mathbf{L} = \mathbf{I}\boldsymbol{\omega}$ se conserva:
+    \begin{equation}
+    L^2 = \|\mathbf{L}\|^2 = I_1^2 \omega_1^2 + I_2^2 \omega_2^2 + I_3^2 \omega_3^2 = L_0^2 = \text{cte}
+    \end{equation}
+    Esta ligadura define un \textbf{elipsoide de momento angular} cuyos semiejes escalan como $L/I_1 > L/I_2 > L/I_3$.
+\end{enumerate}
+
+Las trayectorias admisibles del sistema físico en el espacio de fases tridimensional de velocidades angulares quedan unívocamente determinadas por la \textbf{curva de intersección} entre ambas superficies cuadráticas invariantes (\textit{polhodas} de la construcción geométrica de Poinsot):
+\begin{equation}
+\mathcal{C}(T, L) = \left\{ \boldsymbol{\omega} \in \mathbb{R}^3 : I_1 \omega_1^2 + I_2 \omega_2^2 + I_3 \omega_3^2 = 2T \right\} \cap \left\{ \boldsymbol{\omega} \in \mathbb{R}^3 : I_1^2 \omega_1^2 + I_2^2 \omega_2^2 + I_3^2 \omega_3^2 = L^2 \right\}
+\end{equation}
+Para cualquier movimiento mecánicamente realizable, la compatibilidad algebraica de las dos cuádricas impone la cota universal $2 I_1 T \le L^2 \le 2 I_3 T$.
+
+\subsection{Linealización Espectral y Demostración del Teorema}
+El campo vectorial continuo $\dot{\boldsymbol{\omega}} = \mathbf{f}(\boldsymbol{\omega})$ presenta tres familias fundamentales de puntos de equilibrio en el espacio de fases, correspondientes a rotaciones puras sobre cada uno de los ejes principales de inercia con velocidad angular nominal $\Omega \in \mathbb{R}\setminus\{0\}$:
+\begin{equation}
+\boldsymbol{\omega}^{*(1)} = [\Omega, 0, 0]^T, \qquad \boldsymbol{\omega}^{*(2)} = [0, \Omega, 0]^T, \qquad \boldsymbol{\omega}^{*(3)} = [0, 0, \Omega]^T
+\end{equation}
+La matriz Jacobiana del campo general $\mathbf{J}(\boldsymbol{\omega}) = \nabla \mathbf{f}(\boldsymbol{\omega})$ se expresa analíticamente como:
+\begin{equation}
+\mathbf{J}(\boldsymbol{\omega}) = \begin{bmatrix}
+0 & \dfrac{I_2 - I_3}{I_1}\omega_3 & \dfrac{I_2 - I_3}{I_1}\omega_2 \\[0.7em]
+\dfrac{I_3 - I_1}{I_2}\omega_3 & 0 & \dfrac{I_3 - I_1}{I_2}\omega_1 \\[0.7em]
+\dfrac{I_1 - I_2}{I_3}\omega_2 & \dfrac{I_1 - I_2}{I_3}\omega_1 & 0
+\end{bmatrix}
+\end{equation}
+Al evaluar la estabilidad espectral introduciendo perturbaciones de primer orden $\boldsymbol{\omega}(t) = \boldsymbol{\omega}^{*(k)} + \boldsymbol{\delta\omega}(t)$:
+
+\begin{enumerate}[leftmargin=*]
+    \item \textbf{Rotación en torno al eje de inercia mínimo ($I_1$):}
+    Evaluando en $\boldsymbol{\omega}^{*(1)} = [\Omega, 0, 0]^T$, el sistema perturbado de las componentes desacopladas $(\delta\omega_2, \delta\omega_3)$ satisface:
+    \begin{equation}
+    \begin{bmatrix} \dot{\delta\omega}_2 \\ \dot{\delta\omega}_3 \end{bmatrix} = \begin{bmatrix} 0 & \frac{I_3 - I_1}{I_2}\Omega \\ \frac{I_1 - I_2}{I_3}\Omega & 0 \end{bmatrix} \begin{bmatrix} \delta\omega_2 \\ \delta\omega_3 \end{bmatrix} \implies \det(\lambda \mathbf{I} - \mathbf{J}_1) = \lambda^2 - \frac{(I_3 - I_1)(I_1 - I_2)}{I_2 I_3}\Omega^2 = 0
+    \end{equation}
+    Dado que $I_1 < I_2 < I_3$, se tiene $(I_3 - I_1) > 0$ y $(I_1 - I_2) < 0$. En consecuencia, el producto es estrictamente negativo:
+    \begin{equation}
+    \lambda_{1,2} = \pm i \Omega \sqrt{\frac{(I_3 - I_1)(I_2 - I_1)}{I_2 I_3}} \in i\mathbb{R}
+    \end{equation}
+    Los autovalores son puramente imaginarios conjugados. El punto crítico es un \textbf{centro elíptico estable en el sentido de Lyapunov} (no asintóticamente estable).
+    
+    \item \textbf{Rotación en torno al eje de inercia máximo ($I_3$):}
+    Evaluando en $\boldsymbol{\omega}^{*(3)} = [0, 0, \Omega]^T$, la ecuación característica para las perturbaciones transversales $(\delta\omega_1, \delta\omega_2)$ entrega:
+    \begin{equation}
+    \lambda_{1,2} = \pm i \Omega \sqrt{\frac{(I_3 - I_2)(I_3 - I_1)}{I_1 I_2}} \in i\mathbb{R}
+    \end{equation}
+    Puesto que $(I_3 - I_2) > 0$ y $(I_3 - I_1) > 0$, las raíces vuelven a ser imaginarias puras, garantizando nuevamente la \textbf{estabilidad orbital en el sentido de Lyapunov}.
+
+    \item \textbf{Rotación en torno al eje de inercia intermedio ($I_2$):}
+    Evaluando en el equilibrio $\boldsymbol{\omega}^{*(2)} = [0, \Omega, 0]^T$, el sistema acoplado para $(\delta\omega_1, \delta\omega_3)$ adopta la forma:
+    \begin{equation}
+    \begin{bmatrix} \dot{\delta\omega}_1 \\ \dot{\delta\omega}_3 \end{bmatrix} = \begin{bmatrix} 0 & \frac{I_2 - I_3}{I_1}\Omega \\ \frac{I_1 - I_2}{I_3}\Omega & 0 \end{bmatrix} \begin{bmatrix} \delta\omega_1 \\ \delta\omega_3 \end{bmatrix} \implies \lambda^2 - \frac{(I_2 - I_3)(I_1 - I_2)}{I_1 I_3}\Omega^2 = 0
+    \end{equation}
+    Bajo el ordenamiento $I_1 < I_2 < I_3$, se constata que $(I_2 - I_3) < 0$ y $(I_1 - I_2) < 0$, de modo que su producto es estrictamente positivo:
+    \begin{equation}
+    \lambda_{1,2} = \pm \Omega \sqrt{\frac{(I_3 - I_2)(I_2 - I_1)}{I_1 I_3}} \in \mathbb{R}
+    \end{equation}
+    Al existir un autovalor real estrictamente positivo ($\lambda_1 > 0$), por el Primer Método de Lyapunov y el Teorema de Hartman-Grobman, el equilibrio es un \textbf{punto de silla hiperbólico estrictamente inestable}.
+\end{enumerate}
+
+% En el espacio de fases global de Poinsot, 
+% cuando la relación entre los invariantes satisface la condición crítica $L^2 = 2 I_2 T$, 
+% los elipsoides de momento y energía entran en contacto tangencial a lo 
+% largo de una \textbf{separatriz homoclínica}. 
+% Cualquier perturbación infinitesimal aparta al vehículo del eje intermedio, 
+% forzándolo a recorrer la separatriz y produciendo la rotación de vuelco de 
+% 180 grados observable en el efecto Dzhanibekov.
+
+\section{Marco de Implementación Computacional y GUI Interactiva}
+
+La resolución del problema exige el diseño de una plataforma de simulación en Python 
+fundamentada en principios rigurosos de ingeniería del software, 
+articulada en tres subsistemas desacoplados:
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Capa Física (\texttt{space\_physics}):} Encapsula la definición analítica de 
+	las ecuaciones de Euler, el cómputo de la matriz Jacobiana exacta, 
+	la verificación de los invariantes $2T$ y $L^2$.
+	 \item \textbf{Capa Matemática y Algorítmica (\texttt{numerical\_engine}):} Integra esquemas
+	  temporales de paso simple y adaptativo (Euler, Crank-Nicolson, RK4), 
+	  algoritmos de estimación de error asintótico por extrapolación de Richardson y 
+	  cálculo de regiones de estabilidad numérica $|R(z)| \le 1$ 
+	  para evaluar la conservación física de las integrales primeras.
+    \item \textbf{Capa de Visualización Dinámica (\texttt{gui\_reactive}):} 
+	Cuadro de mando interactivo multipanel en Python (e.g. \texttt{matplotlib.widgets}) que permita en tiempo real:
+    \begin{enumerate}
+        \item Manipular interactivamente mediante deslizadores (\textit{sliders}) los momentos de inercia $(I_1, I_2, I_3)$, la velocidad angular inicial $\Omega$ y el paso temporal $\Delta t$.
+        \item Conmutar dinámicamente entre integradores numéricos y contrastar la deriva numérica de energía $\Delta T(t)$ y momento $\Delta L(t)$.
+        \item Representar simultáneamente el espacio de fases 3D $(\omega_1, \omega_2, \omega_3)$ con las superficies de Poinsot, la separatriz crítica y la animación en vivo de la orientación espacial 3D del satélite durante la transición inestable.
+    \end{enumerate}
+\end{itemize}
+
+\section{Protocolo de la Sesión de Examen y Criterios Reglamentarios}
+
+De conformidad con la Guía de Aprendizaje oficial de la asignatura, la Prueba de Evaluación Intermedia I se desarrollará durante la \textbf{Semana 7} bajo las siguientes condiciones de régimen docente:
+
+\begin{enumerate}[leftmargin=*]
+    \item \textbf{Acto Público Colegiado:} La sesión de evaluación se celebrará de forma presencial y en acto público para todo el estudiantado del máster, ante un tribunal docente integrado por al menos dos profesores del departamento evaluador.
+    \item \textbf{Tiempo y Estructura de la Defensa:}
+    \begin{itemize}
+        \item \textbf{Exposición Colegiada del Grupo (20 minutos):} El equipo presentará de forma conjunta los fundamentos analíticos del teorema del eje intermedio, la derivación de invariantes, la arquitectura de clases del software y una demostración interactiva en directo operando la GUI desarrollada.
+        \item \textbf{Turno de Interrogatorio Individual (15 minutos):} Cada integrante del grupo será interpelado individualmente por los miembros del tribunal sobre la deducción matemática, el rigor de los esquemas numéricos de discretización, la gestión de singularidades o el código fuente del proyecto.
+    \end{itemize}
+    \item \textbf{Carácter Individual de la Calificación:} Aunque el diseño software y el marco físico sean fruto del trabajo en equipo, la nota final otorgada por el tribunal es \textbf{estrictamente individual}, evaluada mediante la rúbrica oficial.
+    \item \textbf{Condición de Aprobado en Evaluación Progresiva:} Para tener derecho a promediar en el sistema de evaluación continua/progresiva es preceptivo alcanzar una \textbf{calificación mínima individual de 3.0 sobre 10.0} en esta prueba.
+\end{enumerate}
+
+\newpage
+\section{Rúbrica de Evaluación Ponderada}
+
+La calificación global individual de la Prueba de Evaluación Intermedia I (sobre una puntuación máxima de 10.0 puntos) se otorgará conforme a la matriz de ponderación que se detalla en la Tabla~\ref{tab:rubrica_pei1}:
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\textwidth}{p{4.0cm} p{9.7cm} c }
+\toprule
+\textbf{Bloque Evaluado} & \textbf{Criterios Específicos de Calidad y Evidencias} & \textbf{Ponderación} 
+ \\
+\midrule
+\textbf{1. Rigor Dinámico y Formulación Analítica} 
+& 
+Conservación analítica de $2T$ y $L^2$, linealización espectral de los tres equilibrios, 
+demostración de la inestabilidad hiperbólica del eje intermedio y geometría de Poinsot. & 25\% \\
+\addlinespace[0.4em]
+\textbf{2. Métodos Numéricos y Conservaciones Físicas} & Implementación de integradores 
+de un paso (Euler, Crank-Nicolson, RK4), análisis de convergencia 
+mediante extrapolación de Richardson, monitorización de la 
+deriva de invariantes y estabilidad numérica absoluta. & 25\% \\
+\addlinespace[0.4em]
+\textbf{3. Ingeniería del Software y GUI Interactiva} & Modularidad estricta 
+y desacoplo en tres capas (Física, Algoritmos, GUI), 
+ visualización sincrónica del espacio de fases 3D y estabilidad de la ejecución en vivo. & 25\%  \\
+\addlinespace[0.4em]
+\textbf{4. Defensa Oral y Dominio Individual} & 
+Precisión conceptual en la exposición técnica, 
+capacidad de razonamiento crítico ante escenarios imprevistos planteados por el tribunal 
+y dominio demostrable del código del repositorio. & 25\%  \\
+\bottomrule
+\end{tabularx}
+\caption{Matriz de ponderación y rúbrica oficial de la Prueba de Evaluación Intermedia I (PEI 1).}
+\label{tab:rubrica_pei1}
+\end{table}
+
+
+
+\end{document}

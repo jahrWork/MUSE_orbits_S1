@@ -185,9 +185,9 @@ Prototypes to integrate orbits without functions.
   } 
 
 \begin{enumerate} 
-\item Write a script to integrate Kepler orbits with an Euler method. 
-\item Write a script to integrate Kepler orbits with a Crank-Nicolson method. 
-\item Write a script to integrate Kepler orbits with a Runge--Kutta fourth order.
+\item Write a script to integrate  orbits with an Euler method. 
+\item Write a script to integrate  orbits with a Crank-Nicolson method. 
+\item Write a script to integrate  orbits with a Runge--Kutta fourth order.
 \item Change time step and plot orbits. Discuss results. 
  \end{enumerate} 
 
@@ -210,7 +210,7 @@ Put emphasis on the way the function of the Cauchy problem is written:
 
 $ F = [ \dot r , -r/|r|^3 ] $ where $ r, \dot r \in \mathbb{R}^2 $ 
 
-\item Integrate a Kepler with these latter schemes and explain the results.
+\item Integrate an orbit with these latter schemes and explain the results.
 \item Increase and decrease the time step and explained the results. 
 %\item Compare  these results with those  obtained with the library  \textt{scipy}. 
  
@@ -240,7 +240,7 @@ and  fourth order Runge Kutta method.
 \newpage
 \item {\bf Milestone 4 : Linear problems. Regions of absolute stability.}  
   \begin{enumerate}
-\item  Integrate the linear oscillator $ \ddot x+ x =0$ with some initial conditions.  
+\item  Integrate a linear problem with some initial conditions.  
        Use Euler, Inverse Euler, Leap--Frog, Crank--Nicolson and fourth order Runge Kutta
         method.  
 \item Regions of absolute stability of the above methods. 
@@ -249,11 +249,12 @@ and  fourth order Runge Kutta method.
  
 
 %******************************************************
-\item {\bf Milestone 5 : N  body problem.}    
+\item {\bf Milestone 5 : circular restricted three body 
+    problem.}    
 
  \begin{enumerate} 
     
-     \item Write a function to integrate the N body problem.  
+     \item Write a function to integrate the  problem.  
      \item Simulate an example and discuss the results. 
  \end{enumerate}
 
@@ -296,7 +297,9 @@ problem.
      \item Standalone Python codes.  
      \item Automatic testing with GitHub.
      \item Mixing Fortran, C++ and Python in one executable file.
-     \item Python script for GMAT. 
+     \item Python script for GMAT.
+     \item Use antigravity and MCP to communicate with GMAT.
+    
  \end{enumerate}
 
 

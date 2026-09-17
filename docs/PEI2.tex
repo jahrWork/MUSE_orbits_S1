@@ -1,0 +1,174 @@
+\documentclass[11pt, a4paper]{article}
+
+\usepackage[a4paper, top=2.3cm, bottom=2.3cm, left=1.9cm, right=1.9cm]{geometry}
+
+
+\usepackage[spanish]{babel}
+
+
+
+\usepackage{enumitem}
+\setlist[itemize]{label=-}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{xcolor}
+
+% Hyperref debe ser el último paquete cargado
+\usepackage[colorlinks=true, linkcolor=blue, urlcolor=blue, citecolor=blue]{hyperref}
+
+\title{\vspace{-1.5cm}\textbf{\LARGE UNIVERSIDAD POLITÉCNICA DE MADRID}\\[0.3em]
+	\textbf{\large Escuela Técnica Superior de Ingeniería Aeronáutica y del Espacio (ETSIAE)}\\[0.2em]
+	\textbf{\normalsize Máster Universitario en Sistemas Espaciales (MUSE) --- Curso 2026--2027}\\[0.5em]
+	\hrule height 1pt \vspace{0.6em}
+	\textbf{\Large Ampliación de Matemáticas 1 }\\[0.3em]
+	\textbf{\large Enunciado Oficial: Prueba de Evaluación Intermedia II (PEI 2)}\\[0.2em]
+	\textsl{Dinámica Orbital 3D en el CR3BP: Soluciones Periódicas, Variedades y Conexión GMAT vía MCP}\vspace{0.4em}
+	\hrule height 0.5pt \vspace{-0.5em}}
+\author{\textbf{Coordinador:} Dr. Juan Antonio Hernández Ramos \quad \quad 
+	\textbf{Convocatoria:} 
+	Evaluación Progresiva}
+\date{}
+
+\begin{document}
+	
+	\maketitle
+	\begin{center}
+		\small
+		\begin{tabularx}{\textwidth}{rX rX}
+			\toprule
+			\textbf{Actividad:} & Prueba de Evaluación Intermedia II (PEI 2) & \textbf{Ponderación:} & 50\% Calificación Progresiva \\
+			\textbf{Modalidad:} & Proyecto en Grupo + Defensa Oral Individual & \textbf{Nota Mínima:} & 3.0 / 10.0 (para promediar) \\
+			\textbf{Tribunal Evaluador:} & Mínimo 2 profesores & \textbf{Duración:} & 20 min exposición + 15 min preguntas \\
+			\textbf{Marco Físico:} & Órbitas 3D en el CR3BP & \textbf{Conectividad:} & 
+			Protocolo MCP / GMAT  \\
+			\bottomrule
+		\end{tabularx}
+	\end{center}
+	
+	\vspace{0.3em}
+	
+	\section{Contexto Académico y Relevancia Aeroespacial}
+	
+	En la astrodinámica moderna, el modelo clásico de dos cuerpos resulta insuficiente para diseñar misiones en regiones donde los campos gravitatorios de dos cuerpos celestes compiten en intensidad (sistemas Tierra-Luna o Sol-Tierra). En estos escenarios, el movimiento del vehículo espacial viene descrito por el \textbf{Problema Restringido Circular de Tres Cuerpos (CR3BP)}.
+	
+	Este modelo no integrable es el fundamento de misiones espaciales de primer nivel:
+	\begin{itemize}[leftmargin=*]
+		\item \textbf{Telescopios en Puntos Sol-Tierra:} El telescopio espacial \textit{James Webb} (JWST) y la misión \textit{Gaia} orbitan en torno al punto colineal $L_2$ Sol-Tierra para mantener sus detectores permanentemente fríos y orientados al espacio profundo. De igual forma, misiones como \textit{SOHO} aprovechan órbitas en torno a $L_1$ para la vigilancia continua de la actividad solar.
+		\item \textbf{Exploración Cislunar (Programa Artemis):} La estación orbital \textit{Lunar Gateway} de NASA y ESA utilizará una órbita de halo casi rectilínea (\textit{Near-Rectilinear Halo Orbit}, NRHO) vinculada a los puntos $L_1$/$L_2$ del sistema Tierra-Luna. Esta solución periódica 3D asegura comunicación constante con la Tierra, bajo coste de mantenimiento orbital ($\Delta V < 10\text{ m/s/año}$) y pasarelas de descenso eficientes hacia el polo sur lunar.
+		\item \textbf{Transferencias de Bajo Coste (\textit{Superautopista Interplanetaria}):} Las variedades invariantes asociadas a las soluciones periódicas del CR3BP permiten diseñar trayectorias que viajan entre la Tierra, la Luna y otros cuerpos celestes con consumo propulsivo casi nulo ($\Delta V \approx 0$).
+	\end{itemize}
+	
+	El objetivo de esta prueba intermedia es analizar la dinámica tridimensional del CR3BP, calcular y caracterizar sus familias de soluciones periódicas y variedades invariantes, e implementar una herramienta en Python estructurada en tres capas que se comunique con la herramienta profesional de la NASA \textbf{GMAT} mediante el protocolo abierto \textbf{MCP} (\textit{Model Context Protocol}) en el entorno \texttt{antigravity} (o similar).
+	
+	\section{Formulación Dinámica del CR3BP Tridimensional}
+	
+	\subsection{Ecuaciones de Movimiento en el Sistema Sinódico}
+	Consideremos dos cuerpos primarios con masas normalizadas $m_1 = 1-\mu$ y $m_2 = \mu$, con $\mu = \frac{m_2}{m_1+m_2} \le 0.5$, girando en órbitas circulares con velocidad angular normalizada $\boldsymbol{\omega} = [0, 0, 1]^T$. En un sistema de referencia centrado en el baricentro y solidario a la rotación de los primarios (marco sinódico), las posiciones de las masas son:
+	\begin{equation}
+		\mathbf{r}_{m_1} = [-\mu, 0, 0]^T, \qquad \mathbf{r}_{m_2} = [1-\mu, 0, 0]^T
+	\end{equation}
+	Para una nave espacial de masa despreciable situada en $\mathbf{r} = [x, y, z]^T$, las distancias a cada primario son:
+	\begin{equation}
+		r_1 = \sqrt{(x+\mu)^2 + y^2 + z^2}, \qquad r_2 = \sqrt{(x - 1 + \mu)^2 + y^2 + z^2}
+	\end{equation}
+	Las ecuaciones del movimiento tridimensional en el marco rotante son:
+	\begin{equation}
+		\begin{cases}
+			\ddot{x} - 2\dot{y} = \dfrac{\partial \Omega}{\partial x} \\[0.5em]
+			\ddot{y} + 2\dot{x} = \dfrac{\partial \Omega}{\partial y} \\[0.5em]
+			\ddot{z} = \dfrac{\partial \Omega}{\partial z}
+		\end{cases}
+	\end{equation}
+	donde $-2\dot{y}$ y $2\dot{x}$ representan la aceleración de Coriolis, y $\Omega(x, y, z)$ es el pseudopotencial efectivo:
+	\begin{equation}
+		\Omega(x, y, z) = \frac{1}{2}(x^2 + y^2) + \frac{1-\mu}{r_1} + \frac{\mu}{r_2}
+	\end{equation}
+	
+	\subsection{Integral Primera de Jacobi y Puntos de Libración}
+	El sistema admite una única integral primera global, la \textbf{Constante de Jacobi} ($C_J$):
+	\begin{equation}
+		C_J = 2\Omega(x, y, z) - v^2 = \text{constante}, \quad \text{donde } v^2 = \dot{x}^2 + \dot{y}^2 + \dot{z}^2 \ge 0
+	\end{equation}
+	La condición cinemática $v^2 \ge 0$ exige que el vehículo evolucione en regiones del espacio donde $2\Omega(x, y, z) \ge C_J$. La frontera límite donde la velocidad relativa se anula identicamente ($v = 0$):
+	\begin{equation}
+		\mathcal{S}_{\text{ZVS}} = \left\{ (x, y, z) \in \mathbb{R}^3 : 2\Omega(x, y, z) = C_J \right\}
+	\end{equation}
+	define las \textbf{Superficies de Velocidad Cero} (ZVS), barreras de energía potencial que delimitan las zonas de vuelo accesibles y los pasillos de tránsito entre los primarios.
+	
+	Los puntos de equilibrio estático en el marco sinódico corresponden a las singularidades donde $\nabla\Omega = \mathbf{0}$. El sistema cuenta con cinco puntos de Lagrange:
+	\begin{itemize}[leftmargin=*]
+		\item \textbf{Puntos colineales ($L_1, L_2, L_3$):} Situados en el eje $x$ ($y=z=0$). Son puntos inestables de tipo centro-silla: presentan direcciones hiperbólicas estables e inestables en el plano $x-y$, y un modo oscilatorio armónico desacoplado fuera del plano ($z$).
+		\item \textbf{Puntos triangulares ($L_4, L_5$):} Situados en el plano orbital formando triángulos equiláteros con las masas primarias. Son espectralmente estables cuando el parámetro de masa cumple el criterio de Routh:
+		\begin{equation}
+			\mu < \mu_R = \frac{1}{2}\left(1 - \sqrt{\frac{23}{27}}\right) \approx 0.03852
+		\end{equation}
+	\end{itemize}
+	
+	\section{Física de las Soluciones Periódicas 3D y Variedades Invariantes}
+	
+	\subsection{Frecuencias Propias y Familias Orbitales (Halo, NRHO y Lissajous)}
+	Al linealizar el movimiento en torno a los puntos colineales ($L_1, L_2, L_3$), la dinámica oscilatoria se descompone en dos ritmos naturales desacoplados a primer orden:
+	\begin{itemize}[leftmargin=*]
+		\item \textbf{Frecuencia propia vertical ($\nu$):} Oscilación armónica pura fuera del plano ($\ddot{z} + \nu^2 z = 0$), originada por la atracción gravitatoria restauradora hacia el plano $x-y$, con valor $\nu = \sqrt{\frac{1-\mu}{r_1^3} + \frac{\mu}{r_2^3}}$.
+		\item \textbf{Frecuencia propia planar ($\omega_p$):} Modo oscilatorio horizontal en el plano $x-y$, asociado a la parte imaginaria del sistema acoplado por la aceleración de Coriolis.
+	\end{itemize}
+	La combinación de ambas frecuencias define las diferentes clases de movimiento:
+	\begin{itemize}[leftmargin=*]
+		\item \textbf{Órbitas de Lyapunov:} Órbitas periódicas planas confinadas en el plano sinódico ($z = 0$) que oscilan con frecuencia $\omega_p$.
+		\item \textbf{Trayectorias de Lissajous:} Movimientos tridimensionales cuasiperiódicos sobre toros invariantes $\mathbb{T}^2$. Aparecen cuando se excitan simultáneamente ambos modos pero sus frecuencias son inconmensurables ($\omega_p / \nu \notin \mathbb{Q}$), por lo que la trayectoria no llega a cerrarse.
+		\item \textbf{Órbitas Halo 3D:} Al crecer la amplitud de la órbita, los términos no lineales de la gravedad acoplan ambos planos hasta forzar una resonancia $1:1$ ($\omega_p \approx \nu$). En esta bifurcación espacial la trayectoria se cierra en tres dimensiones, dando lugar a las ramas periódicas simétricas \textbf{Halo Norte} ($z > 0$) y \textbf{Halo Sur} ($z < 0$).
+		\item \textbf{Órbitas NRHO (\textit{Near-Rectilinear Halo Orbits}):} Miembros de la familia Halo con gran amplitud vertical en el sistema Tierra-Luna. Poseen un periapsis cercano sobre el polo lunar y apoapsis amplio, ofreciendo gran estabilidad orbital para misiones como \textit{Lunar Gateway}.
+	\end{itemize}
+	
+	\subsection{\texorpdfstring{Variedades Invariantes ($\mathcal{W}^s, \mathcal{W}^u$)}{Variedades Invariantes (Ws, Wu)} y Tubos de Transporte}
+	En las soluciones periódicas inestables, existen trayectorias asintóticas que convergen naturalmente hacia la órbita (variedad estable $\mathcal{W}^s$) o que escapan de ella (variedad inestable $\mathcal{W}^u$). Al perturbar ligeramente el estado orbital a lo largo de estas direcciones y propagar hacia adelante o atrás en el tiempo, se generan \textbf{tubos de transporte gravitatorio}. Las trayectorias sobre $\mathcal{W}^s$ permiten diseñar maniobras de inserción orbital con consumo propulsivo casi nulo ($\Delta V \approx 0$), mientras que las de $\mathcal{W}^u$ proporcionan pasillos de escape eficientes hacia otros destinos del sistema cislunar.
+	
+	\section{Arquitectura Software e Interoperabilidad MCP con NASA GMAT}
+	
+	El desarrollo del software debe seguir un esquema claro de tres pilares desacoplados, implementable en Python y ejecutable en el entorno \texttt{antigravity}:
+	
+	\begin{enumerate}[leftmargin=*]
+		\item \textbf{Pilar 1: Modelo Físico (\texttt{space\_physics}):} Encapsula de forma estricta las ecuaciones del CR3BP 3D, el cálculo analítico del pseudopotencial $\Omega$ y la constante de Jacobi. No debe incluir código numérico de integración ni elementos de interfaz gráfica.
+		\item \textbf{Pilar 2: Motor Numérico (\texttt{numerical\_engine}):} Aloja los solucionadores de integración temporal, el algoritmo de corrección diferencial por disparo simétrico para encontrar la órbita periódica y la propagación de las variedades invariantes $\mathcal{W}^{s,u}$.
+		\item \textbf{Pilar 3: Interfaz Gráfica y Conexión MCP (\texttt{gui\_orchestrator}):}
+		\begin{itemize}
+			\item \textbf{GUI Dinámica 3D:} Panel interactivo que permita visualizar la trayectoria tridimensional, rotar la vista, variar parámetros y representar los tubos de variedades estables e inestables junto con la superficie de velocidad cero.
+			\item \textbf{Interoperabilidad con NASA GMAT vía MCP (\textit{Model Context Protocol}):} La aplicación debe interactuar con **GMAT** a través del protocolo **MCP** en el entorno \texttt{antigravity} (o servidor equivalente). La herramienta generará de forma desatendida el script de misión (\texttt{.script}) con el estado corregido de la órbita, invocará la propagación de GMAT bajo un modelo de fuerzas de alta fidelidad (gravedad no esférica y perturbaciones solares/lunares) y reingestará los resultados en la GUI para contrastar los residuos de posición $\|\mathbf{r}_{\text{CR3BP}} - \mathbf{r}_{\text{GMAT}}\|$ y la deriva de Jacobi.
+		\end{itemize}
+	\end{enumerate}
+	
+	\section{Protocolo de Examen y Rúbrica de Evaluación Ponderada}
+	
+	La prueba se celebrará durante la \textbf{Semana 14} en sesión pública colegiada ante un tribunal de al menos dos profesores:
+	\begin{enumerate}[leftmargin=*]
+		\item \textbf{Exposición Colegiada del Grupo (20 minutos):} Presentación conjunta del modelo físico, la formulación matemática de la corrección diferencial y una demostración interactiva de la GUI y la conexión MCP con GMAT en directo.
+		\item \textbf{Turno de Preguntas Individual (15 minutos):} Cada estudiante será interpelado individualmente sobre los fundamentos teóricos, los métodos numéricos y el código implementado.
+		\item \textbf{Calificación Individual:} La calificación final es estrictamente individual, aplicando la matriz oficial detallada en la Tabla~\ref{tab:rubrica_pei2}. Para optar a promediar en la evaluación progresiva es necesario obtener una \textbf{calificación mínima de 3.0 sobre 10.0}.
+	\end{enumerate}
+	
+	\begin{table}[htbp]
+		\centering  
+		\small
+		\begin{tabularx}{\textwidth}{p{4.5cm} X c}
+			\toprule
+			\textbf{Bloque Evaluado} & \textbf{Criterios Opcionales de Calidad y Evidencias} & \textbf{Ponderación} \\
+			\midrule
+			\textbf{1. Rigor Dinámico y Formulación Analítica} & Deducción formal del CR3BP 3D, superficies de velocidad cero, puntos de Lagrange y caracterización cualitativa de familias periódicas 3D y variedades invariantes. & 25\% \\
+			\addlinespace[0.4em]
+			\textbf{2. Algoritmos Numéricos y Corrección Diferencial} & Implementación robusta del método de disparo en $\mathbb{R}^6$, métodos de continuación de familias orbitales, integradores adaptativos e independencia de cajas negras opacas. & 25\% \\
+			\addlinespace[0.4em]
+			\textbf{3. Orquestación Software, GUI e Interoperabilidad} & Modularidad estricta en 3 capas, reactividad fluida de la GUI 3D, gestión de excepciones y éxito en la comunicación automática con GMAT (vía MCP / API externa). & 25\% \\
+			\addlinespace[0.4em]
+			\textbf{4. Defensa Oral y Dominio Individual} & Precisión técnica de la exposición, capacidad de análisis crítico y respuesta rigurosa individual ante las preguntas formuladas por el tribunal docente. & 25\% \\
+			\bottomrule
+		\end{tabularx}
+		\caption{Criterios y matriz de ponderación oficial para la Prueba de Evaluación 
+		Intermedia 2.}
+		\label{tab:rubrica_pei2}
+	\end{table}
+	
+\end{document}
